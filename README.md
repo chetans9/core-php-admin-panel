@@ -1,6 +1,9 @@
 # core-php-admin-panel
+# Check demo at : http://corephpadmin.000webhostapp.com/
+
 To access Use:
 username: chetan password: chetan
+
 
 An Admin panel written in core php. It includes filters and pagination.
 Features :
