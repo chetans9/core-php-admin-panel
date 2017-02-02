@@ -12,12 +12,18 @@
     </head>
     <body>
         <?php
+        //variables for active element class
+        $adminusers_active = "";
+
         $uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $uri_segment = explode('/', $uri_path);
-        if ($uri_segment[2] == 'index.php' || $uri_segment[2] == '') {
+        $current_path = basename($uri_path);
+        if ($current_path == 'index.php' || $current_path == '') {
             $home_active = 'class="active"';
         } else {
             $home_active = "";
+        }
+        if ($current_path == 'admin_users.php') {
+            $adminusers_active = ' class="active"';
         }
         ?>
         <nav class="navbar navbar-default">
@@ -35,7 +41,15 @@
                 <div class="collapse navbar-collapse" id="mynavbarmain">
                     <ul class="nav navbar-nav">
                         <li <?= $home_active ?>><a href="index.php">Home</a></li>
-                        <?php if ($uri_segment[2] != 'login.php') { ?>
+                        <?php if (@$_SESSION['admin_type'] === 'super') { ?>
+                            <li <?= $adminusers_active; ?>>
+                                <a href="admin_users.php" title="About me">Admin users</a>
+                            </li>
+
+                            <?php
+                        }
+                        if ($current_path != 'login.php') {
+                            ?>
 
                             <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">System</a> 
@@ -46,6 +60,7 @@
                                 </ul>
                             </li>
                         <?php } ?>
+
                     </ul>
                 </div>
             </div>

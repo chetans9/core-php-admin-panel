@@ -3,6 +3,7 @@ session_start();
 require_once 'includes/database.php';
 // avoid user arriving to this page without logging in
 if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
+    
     header('Location:login.php');
 }
 // Sanitize if you want

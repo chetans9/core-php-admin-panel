@@ -1,14 +1,19 @@
 <?php
 session_start();
-
 require_once 'includes/database.php';
 
 if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
     header('Location:login.php');
 }
+//Only super admin is allowed to access this page
+if ($_SESSION['admin_type'] !== 'super') {
+    // show permission denied message
+    echo 'Permission Denied';
+    exit();
+}
 //Get data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
-$del_id = filter_input(INPUT_GET, 'del_customer_id');
+$del_id = filter_input(INPUT_GET, 'del_id');
 
 $filter_col = filter_input(INPUT_GET, 'filter_col');
 $order_by = filter_input(INPUT_GET, 'order_by');
@@ -27,22 +32,20 @@ if ($order_by == "") {
 
 
 // Delete a user using user_id
-if ($del_id && $_SESSION['admin_type']==='super') {
-    $customer_id = filter_var($_GET['del_customer_id'], FILTER_SANITIZE_NUMBER_INT);
-    $db->where('id', $customer_id);
-    $stat = $db->delete('customers');
+if ($del_id && $_SESSION['admin_type'] == 'super') {
+    $admin_user_id = filter_input(INPUT_GET, 'del_id');
+    $db->where('id', $admin_user_id);
+    $stat = $db->delete('admin_accounts');
     if ($stat) {
         $del_stat = TRUE;
     }
-    
 }
 // select the columns
-$select = array('id', 'f_name', 'l_name', 'gender', 'phone');
+$select = array('id', 'user_name', 'admin_type');
 
 // If user searches 
 if ($search_string) {
-    $db->where('f_name', '%' . $search_string . '%', 'like');
-    $db->orwhere('l_name', '%' . $search_string . '%', 'like');
+    $db->where('user_name', '%' . $search_string . '%', 'like');
 }
 
 
@@ -54,7 +57,7 @@ if ($order_by) {
 //$result = $db->get('customers',NULL,$select);
 
 $db->pageLimit = $pagelimit;
-$result = $db->arraybuilder()->paginate("customers", $page, $select);
+$result = $db->arraybuilder()->paginate("admin_accounts", $page, $select);
 $total_pages = $db->totalPages;
 
 
@@ -70,10 +73,10 @@ foreach ($result as $value) {
 
 require_once 'includes/header.php';
 ?>
-   
+
 <div class="container">
     <ul class="breadcrumb">
-        <a href="index.php">List view</a> 
+        <a href="admin_users.php">List view</a> 
     </ul>
     <?php
     if (isset($del_stat) && $del_stat == 1) {
@@ -82,10 +85,10 @@ require_once 'includes/header.php';
     ?>
     <div class="header-title row">
         <div class="col-sm-6 title-name">
-            Customers
+            Admin users
         </div>
         <div class="text-right col-sm-6" style="">
-            <a href="add.php"> <button class="btn btn-success">Add new</button></a>
+            <a href="add_admin.php"> <button class="btn btn-success">Add new</button></a>
         </div>
     </div>
     <!--    Begin filter section-->
@@ -122,7 +125,7 @@ require_once 'includes/header.php';
 
         </form>
     </div>
-<!--   Filter section end-->
+    <!--   Filter section end-->
 
     <hr>
 
@@ -132,9 +135,9 @@ require_once 'includes/header.php';
             <tr>
                 <th class="header">#</th>
                 <th>Name</th>
-                <th>Gender</th>
-                <th>phone</th>
+                <th>Admin type</th>
                 <th>Actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -142,20 +145,18 @@ require_once 'includes/header.php';
             foreach ($result as $row) {
                 echo '<tr>';
                 echo '<td>' . $row['id'] . '</td>';
-                echo '<td>' . $row['f_name'] . " " . $row['l_name'] . '</td>';
-                echo '<td>' . $row['gender'] . '</td>';
-                echo '<td>' . $row['phone'] . '</td>';
-                echo '<td><a href="update.php?customer_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;">Edit';
-                if($_SESSION['admin_type']=='super'){
-                echo '<a href="index.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
-                
+                echo '<td>' . $row['user_name'] . '</td>';
+                echo '<td>' . $row['admin_type'] . '</td>';
+                echo '<td><a href="update_admin.php?admin_user_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;">Edit';
+                if ($_SESSION['admin_type'] == 'super') {
+                    echo '<a href="admin_users.php?del_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
                 }
                 echo '</tr>';
             }
             ?>      
         </tbody>
     </table>
-<!--    Pagination links-->
+    <!--    Pagination links-->
     <div class="text-center">
 
         <?php

@@ -23,3 +23,7 @@ text-align: center;
     margin-right: 8px;
     font-size: 18px;
 }
+.pagination>.active{
+    pointer-events: none;
+    cursor: default;
+}

@@ -11,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
     $passwd=  md5($passwd);
    
-    $query = "SELECT * FROM accounts WHERE user_name='$username' AND passwd='$passwd'";
+    $query = "SELECT * FROM admin_accounts WHERE user_name='$username' AND passwd='$passwd'";
     $row = $db->query($query);
-   
+     
     if (count($row) >= 1) {
         $_SESSION['user_logged_in'] = TRUE;
+        $_SESSION['admin_type'] = $row[0]['admin_type'];
         $sess_id = session_id();
         header('Location:index.php');
     } else {
