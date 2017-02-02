@@ -6,8 +6,9 @@ username: chetan password: chetan
 
 
 An Admin panel written in core php. It includes filters and pagination.
+
 Features :
-	1. Record management :
+	1.Record management :
 		Allows you to Add, Update and Delete information in database. 
 		This project uses MysqliDb class. That simplifies writting SQL queries.
 
