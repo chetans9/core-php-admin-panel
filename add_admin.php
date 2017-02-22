@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input  type="text" name="user_name" placeholder="First Name" class="form-control"  >
+                        <input  type="text" name="user_name" placeholder="First Name" class="form-control" required=""  >
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="password" name="passwd" placeholder="Last Name" class="form-control" >
+                        <input type="password" name="passwd" placeholder="Last Name" class="form-control" required="" >
                     </div>
                 </div>
             </div>

@@ -32,11 +32,11 @@ require_once 'includes/header.php';
         <div class="well login-wrapper">
             <div class="input-group loginField">
                 <label class="control-label">username</label>
-                <input type="text" name="username" class="form-control">
+                <input type="text" name="username" class="form-control" required="required">
             </div>
             <div class="input-group loginField">
                 <label class="control-label">password</label>
-                <input type="password" name="passwd" class="form-control">
+                <input type="password" name="passwd" class="form-control" required="required">
             </div>
             <?php
             if (isset($errmsg) && $errmsg = TRUE) {
