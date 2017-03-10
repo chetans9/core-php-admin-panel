@@ -63,7 +63,7 @@ require_once 'includes/header.php';
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input  name="f_name" placeholder="First Name" class="form-control"  type="text" value="<?= $row['f_name'] ?>">
+                        <input  name="f_name" placeholder="First Name" class="form-control"  type="text" value="<?= $row['f_name'] ?>" required="required">
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@ require_once 'includes/header.php';
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="l_name" placeholder="Last Name" class="form-control"  type="text" value="<?= $row['l_name'] ?>">
+                        <input name="l_name" placeholder="Last Name" class="form-control"  type="text" value="<?= $row['l_name'] ?>" required="required">
                     </div>
                 </div>
             </div>
