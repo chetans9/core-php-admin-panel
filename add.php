@@ -1,14 +1,16 @@
 <?php
 session_start();
-require_once 'includes/header.php';
-require_once 'includes/database.php';
-
 // avoid user arriving to this page without logging in
 if(!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']!=TRUE )
 {
 header('Location:login.php');
-
 }
+
+//Includes
+require_once 'includes/header.php';
+require_once 'includes/database.php';
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitize input post if we want
@@ -35,13 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 }
 ?>
-<div class="container">
+<div id="page-wrapper">
+<div class="row">
+     <div class="col-lg-12">
+            <h2 class="page-header">Add Customers</h2>
+        </div>
+        
+</div>
 
-    <ul class="breadcrumb">
-        <a href="index.php">List view</a> >
-        <a href="">add</a>
 
-    </ul>
     <!-- Success message -->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -55,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form class="well form-horizontal" action=" " method="post"  id="contact_form" enctype="multipart/form-data">
         <fieldset>
             <!-- Form Name -->
-            <legend>Add new student</legend>
+        
               <!-- Text input-->
             <div class="form-group">
                 <label class="col-md-4 control-label">First Name</label>  

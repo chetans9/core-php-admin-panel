@@ -47,7 +47,7 @@ foreach ($result as $row) {}
 // import header
 require_once 'includes/header.php';
 ?>
-<div class="container">
+<div id="page-wrapper">
 
     <ul class="breadcrumb">
         <a href="admin_users.php">List view</a> >

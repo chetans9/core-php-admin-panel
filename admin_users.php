@@ -74,23 +74,24 @@ foreach ($result as $value) {
 require_once 'includes/header.php';
 ?>
 
-<div class="container">
-    <ul class="breadcrumb">
-        <a href="admin_users.php">List view</a> 
-    </ul>
+<div id="page-wrapper">
+<div class="row">
+     <div class="col-lg-6">
+            <h1 class="page-header">Admin users</h1>
+        </div>
+        <div class="col-lg-6" style="">
+            <div class="page-action-links text-right">
+            <a href="add_admin.php"> <button class="btn btn-success">Add new</button></a>
+            </div>
+        </div>
+</div>
+
     <?php
     if (isset($del_stat) && $del_stat == 1) {
         echo '<div class="alert alert-info">Successfully deleted</div>';
     }
     ?>
-    <div class="header-title row">
-        <div class="col-sm-6 title-name">
-            Admin users
-        </div>
-        <div class="text-right col-sm-6" style="">
-            <a href="add_admin.php"> <button class="btn btn-success">Add new</button></a>
-        </div>
-    </div>
+    
     <!--    Begin filter section-->
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">

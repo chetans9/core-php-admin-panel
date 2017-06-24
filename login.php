@@ -1,11 +1,11 @@
 <?php
 session_start();
-
-require_once 'includes/database.php';
-
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE) {
     header('Location:index.php');
 }
+
+require_once 'includes/database.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
@@ -27,14 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once 'includes/header.php';
 ?>
-<div class="container">
+<div id="page-" class="col-md-4 col-md-offset-4">
+
     <form class="form loginform" method="POST">
-        <div class="well login-wrapper">
-            <div class="input-group loginField">
+        <div class="login-panel panel panel-default">
+        <div class="panel-heading">Please Sign in</div>
+            <div class="panel-body">
+            <div class="form-group">
                 <label class="control-label">username</label>
                 <input type="text" name="username" class="form-control" required="required">
             </div>
-            <div class="input-group loginField">
+            <div class="form-group">
                 <label class="control-label">password</label>
                 <input type="password" name="passwd" class="form-control" required="required">
             </div>
@@ -44,6 +47,7 @@ require_once 'includes/header.php';
             }
             ?>
             <button type="submit" class="btn btn-success loginField" >Login</button>
+            </div>
         </div>
     </form>
 

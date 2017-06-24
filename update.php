@@ -37,11 +37,11 @@ foreach ($result as $row) {
 require_once 'includes/header.php';
 ?>
 
-<div class="container">
-    <ul class="breadcrumb">
-        <a href="index.php">List view</a> >
-        <a href="">Edit</a>
-    </ul>
+<div id="page-wrapper">
+    <div class="row">
+    <h2 class="page-header">Update Customer</h2>
+    	
+    </div>
     <!-- Success message -->
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -54,8 +54,8 @@ require_once 'includes/header.php';
     ?>
     <form class="well form-horizontal" action=" " method="post" enctype="multipart/form-data" id="contact_form">
         <fieldset>
-            <!-- Form Name -->
-            <legend>Add new student</legend>
+          
+            
 
             <!-- Text input-->
             <div class="form-group">

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 }
 ?>
-<div class="container">
+<div id="page-wrapper">
 
     <ul class="breadcrumb">
         <a href="admin_users.php">List view</a> >
