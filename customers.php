@@ -1,11 +1,12 @@
 <?php
 session_start();
-
-require_once 'includes/database.php';
-
 if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
     header('Location:login.php');
 }
+
+require_once 'includes/database.php';
+
+
 //Get data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
 $del_id = filter_input(INPUT_GET, 'del_customer_id');
@@ -51,12 +52,9 @@ if ($order_by) {
     $db->orderBy($filter_col, $order_by);
 }
 
-//$result = $db->get('customers',NULL,$select);
-
 $db->pageLimit = $pagelimit;
 $result = $db->arraybuilder()->paginate("customers", $page, $select);
 $total_pages = $db->totalPages;
-
 
 // get columns for order filter
 foreach ($result as $value) {
@@ -66,8 +64,6 @@ foreach ($result as $value) {
     //execute only once
     break;
 }
-
-
 require_once 'includes/header.php';
 ?>
 <div id="page-wrapper">

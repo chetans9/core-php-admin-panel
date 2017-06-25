@@ -4,6 +4,9 @@ if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) 
     header('Location:login.php');
 }
 require_once 'includes/database.php';
+//Get Dashboard information
+$db->get('customers');
+$numCustomers = $db->count;
 
 include_once('includes/header.php');
 ?>
@@ -21,15 +24,15 @@ include_once('includes/header.php');
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
+                            <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">26</div>
-                            <div>New Comments!</div>
+                            <div class="huge"><?php echo $numCustomers; ?></div>
+                            <div>Customers</div>
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="customers.php">
                     <div class="panel-footer">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
