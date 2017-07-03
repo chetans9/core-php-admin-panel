@@ -181,6 +181,9 @@ require_once 'includes/header.php';
 </div>
 <!--Main container end-->
 
+
+<?php include_once 'includes/footer.php'; ?>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('.delete_btn').click(function () {
@@ -193,4 +196,3 @@ require_once 'includes/header.php';
         });
     });
 </script> 
-<?php include_once 'includes/footer.php'; ?>
