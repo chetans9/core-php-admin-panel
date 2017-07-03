@@ -32,6 +32,7 @@ if ($del_id && $_SESSION['admin_type']==='super') {
     $customer_id = filter_var($_GET['del_customer_id'], FILTER_SANITIZE_NUMBER_INT);
     $db->where('id', $customer_id);
     $stat = $db->delete('customers');
+    
     if ($stat) {
         $del_stat = TRUE;
     }
@@ -141,7 +142,7 @@ require_once 'includes/header.php';
                 echo '<td>' . $row['phone'] . '</td>';
                 echo '<td><a href="update.php?customer_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;">Edit';
                 if($_SESSION['admin_type']=='super'){
-                echo '<a href="index.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
+                echo '<a href="customers.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
                 
                 }
                 echo '</tr>';
@@ -174,6 +175,9 @@ require_once 'includes/header.php';
 </div>
 <!--Main container end-->
 
+
+<?php include_once 'includes/footer.php'; ?>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('.delete_btn').click(function () {
@@ -186,4 +190,3 @@ require_once 'includes/header.php';
         });
     });
 </script> 
-<?php include_once 'includes/footer.php'; ?>
