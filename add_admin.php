@@ -38,12 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 <div id="page-wrapper">
-
-    <ul class="breadcrumb">
-        <a href="admin_users.php">List view</a> >
-        <a href="">add</a>
-
-    </ul>
+<div class="row">
+     <div class="col-lg-12">
+            <h2 class="page-header">Add User</h2>
+        </div>
+        
+</div>
+    
     <!-- Success message -->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form class="well form-horizontal" action=" " method="post"  id="contact_form" enctype="multipart/form-data">
         <fieldset>
             <!-- Form Name -->
-            <legend>Add new admin user</legend>
+          
               <!-- Text input-->
             <div class="form-group">
                 <label class="col-md-4 control-label">User name</label>  

@@ -148,9 +148,9 @@ require_once 'includes/header.php';
                 echo '<td>' . $row['id'] . '</td>';
                 echo '<td>' . $row['user_name'] . '</td>';
                 echo '<td>' . $row['admin_type'] . '</td>';
-                echo '<td><a href="update_admin.php?admin_user_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;">Edit';
+                echo '<td><a href="update_admin.php?admin_user_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
                 if ($_SESSION['admin_type'] == 'super') {
-                    echo '<a href="admin_users.php?del_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
+                    echo '<a href="admin_users.php?del_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span></td>';
                 }
                 echo '</tr>';
             }

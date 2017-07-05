@@ -140,9 +140,9 @@ require_once 'includes/header.php';
                 echo '<td>' . $row['f_name'] . " " . $row['l_name'] . '</td>';
                 echo '<td>' . $row['gender'] . '</td>';
                 echo '<td>' . $row['phone'] . '</td>';
-                echo '<td><a href="update.php?customer_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;">Edit';
+                echo '<td><a href="update.php?customer_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
                 if($_SESSION['admin_type']=='super'){
-                echo '<a href="customers.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;">delete</td>';
+                echo '<a href="customers.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span></td>';
                 
                 }
                 echo '</tr>';
