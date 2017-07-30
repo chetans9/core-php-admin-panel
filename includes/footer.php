@@ -2,7 +2,7 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.min.js" type="text/javascript"></script> 
+    
 
     <!-- Bootstrap Core JavaScript -->
     
@@ -16,6 +16,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
 
 </body>
 

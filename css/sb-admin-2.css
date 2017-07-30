@@ -201,3 +201,7 @@ body {
 .panel-yellow > a:hover {
   color: #df8a13;
 }
+
+label.error{
+  color: red;
+}

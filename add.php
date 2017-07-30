@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form" enctype="multipart/form-data">
+    <form class="well form-horizontal" action=" " method="post"  id="customer_form" enctype="multipart/form-data">
         <fieldset>
             <!-- Form Name -->
         
@@ -182,6 +182,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
 
+<script type="text/javascript">
+$(document).ready(function(){
+   $("#customer_form").validate({
+       errorElement: 'label',
 
+       errorPlacement: function (error, element) {
+            var name = $(element).attr("name");
+            error.insertAfter($(element).closest('.input-group'));
+        },
+       rules: {
+            f_name: {
+                required: true,
+                minlength: 3
+            },
+            l_name: {
+                required: true,
+                minlength: 3
+            },
+          
+            
+        }
+       
+    });
+});
+</script>
 
 <?php include_once 'includes/footer.php'; ?>
