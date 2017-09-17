@@ -1,14 +1,6 @@
 <?php
 session_start();
-// avoid user arriving to this page without logging in
-if(!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']!=TRUE )
-{
-header('Location:login.php');
-exit;
-}
-
-//Includes
-require_once 'includes/header.php';
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
 
 
@@ -35,8 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else{
         $stat=FALSE;
     }
-    
+   
 }
+
+require_once 'includes/header.php'; 
 ?>
 <div id="page-wrapper">
 <div class="row">

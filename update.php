@@ -1,11 +1,8 @@
 <?php
 session_start();
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
-// avoid user arriving to this page without logging in
-if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
-    
-    header('Location:login.php');
-}
+
 // Sanitize if you want
 $customer_id = filter_input(INPUT_GET, 'customer_id', FILTER_VALIDATE_INT);
 

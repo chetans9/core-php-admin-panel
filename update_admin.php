@@ -1,13 +1,9 @@
 <?php
 session_start();
-
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
 
-// avoid user arriving to this page without logging in
-if(!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']!=TRUE )
-{
-header('Location:login.php');
-}
+
 $admin_user_id=  filter_input(INPUT_GET, 'admin_user_id');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

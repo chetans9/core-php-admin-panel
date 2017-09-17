@@ -1,14 +1,8 @@
 <?php
 session_start();
-require_once 'includes/header.php';
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
 
-// avoid user arriving to this page without logging in
-if(!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']!=TRUE )
-{
-header('Location:login.php');
-
-}
 //Only super admin is allowed to access this page
 if ($_SESSION['admin_type'] !== 'super') {
     // show permission denied message
@@ -36,6 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
 }
+
+
+require_once 'includes/header.php';
 ?>
 <div id="page-wrapper">
 <div class="row">

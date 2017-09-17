@@ -1,9 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
-    header('Location:login.php');
-}
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
+
+
 //Get Dashboard information
 $db->get('customers');
 $numCustomers = $db->count;

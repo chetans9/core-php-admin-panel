@@ -1,10 +1,8 @@
 <?php
 session_start();
+require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
 
-if (!isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] != TRUE) {
-    header('Location:login.php');
-}
 //Only super admin is allowed to access this page
 if ($_SESSION['admin_type'] !== 'super') {
     // show permission denied message
