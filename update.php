@@ -6,20 +6,15 @@ require_once 'includes/database.php';
 // Sanitize if you want
 $customer_id = filter_input(INPUT_GET, 'customer_id', FILTER_VALIDATE_INT);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
    
-    extract(filter_input_array(INPUT_POST));
+    foreach ($_POST as $key => $value) 
+    {
+        $data_to_update[$key] = $value;      
+    }
 
-    $data_to_update = array(
-        'f_name' => $f_name,
-        'l_name' => $l_name,
-        'gender' => $gender,
-        'address' => $address,
-        'phone' => $phone,
-        'state'=>$state,
-        'email' => $email,
-        'date_of_birth'=>$date_of_birth
-    );
+    
     $db->where('id',$customer_id);
     $stat = $db->update('customers', $data_to_update);
 }

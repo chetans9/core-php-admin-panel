@@ -4,25 +4,19 @@ require_once 'includes/auth_validate.php';
 require_once 'includes/database.php';
 
 
+//serve POST method, create operation
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
+    
+    //Mass Insert Data. Keep "name" attribute in html form same as column name in mysql table.
+    foreach ($_POST as $key => $value) 
+    {
+        $data_to_store[$key] = $value;      
+    }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize input post if we want
-    extract(filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING));
-
-    $data_to_store = array(
-        'f_name' => $f_name,
-        'l_name' => $l_name,
-        'gender' => $gender,
-        'address' => $address,
-        'phone' => $phone,
-        'state'=>$state,
-        'email' => $email,
-        'date_of_birth'=>$date_of_birth
-    );
     $id = $db->insert ('customers', $data_to_store);
     if($id){
         $stat=TRUE;
-        
     }
     else{
         $stat=FALSE;

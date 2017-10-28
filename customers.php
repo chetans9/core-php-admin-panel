@@ -76,7 +76,7 @@ require_once 'includes/header.php';
         </div>
         <div class="col-lg-6" style="">
             <div class="page-action-links text-right">
-            <a href="add.php"> <button class="btn btn-success">Add new</button></a>
+            <a href="add.php?operation=create"> <button class="btn btn-success">Add new</button></a>
             </div>
         </div>
     </div>
