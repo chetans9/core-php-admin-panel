@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once 'includes/database.php';
+require_once './config/database.php';
 
 
 //Get data from query string
@@ -173,7 +173,7 @@ require_once 'includes/header.php';
 <!--Main container end-->
 
 
-<?php include_once 'includes/footer.php'; ?>
+<?php include_once './includes/footer.php'; ?>
 
 <script type="text/javascript">
     $(document).ready(function () {

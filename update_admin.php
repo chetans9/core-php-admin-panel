@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once 'includes/database.php';
+require_once './config/database.php';
 
 
 $admin_user_id=  filter_input(INPUT_GET, 'admin_user_id');

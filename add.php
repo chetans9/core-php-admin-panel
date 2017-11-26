@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once 'includes/database.php';
+require_once './config/database.php';
 
 $operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
 ($operation == 'edit') ? $edit = true : $edit = false;
@@ -18,12 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     //Mass Insert Data. Keep "name" attribute in html form same as column name in mysql table.
     $data_to_store = filter_input_array(INPUT_POST);
     $id = $db->insert ('customers', $data_to_store);
-    if($id){
-        $stat=TRUE;
-    }
-    else{
-        $stat=FALSE;
-    }
+    $stat = ($id)? TRUE :FALSE;
    
 }
 
@@ -48,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-    <form class="well form-horizontal" action=" " method="post"  id="customer_form" enctype="multipart/form-data">
-       <?php  include_once('./customer_form.php'); ?>
+    <form class="form" action=" " method="post"  id="customer_form" enctype="multipart/form-data">
+       <?php  include_once('./includes/forms/customer_form.php'); ?>
     </form>
 </div>
 
@@ -57,12 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script type="text/javascript">
 $(document).ready(function(){
    $("#customer_form").validate({
-       errorElement: 'label',
-
-       errorPlacement: function (error, element) {
-            var name = $(element).attr("name");
-            error.insertAfter($(element).closest('.input-group'));
-        },
        rules: {
             f_name: {
                 required: true,
@@ -72,7 +61,6 @@ $(document).ready(function(){
                 required: true,
                 minlength: 3
             },
-          
             
         }
        

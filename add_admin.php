@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once 'includes/database.php';
+require_once './config/database.php';
 
 //Only super admin is allowed to access this page
 if ($_SESSION['admin_type'] !== 'super') {

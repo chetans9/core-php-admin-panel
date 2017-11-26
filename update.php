@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once 'includes/database.php';
+require_once './config/database.php';
 
 // Sanitize if you want
 $customer_id = filter_input(INPUT_GET, 'customer_id', FILTER_VALIDATE_INT);
@@ -48,8 +48,8 @@ require_once 'includes/header.php';
         }
     }
     ?>
-    <form class="well form-horizontal" action=" " method="post" enctype="multipart/form-data" id="contact_form">
-        <?php  include_once('./customer_form.php'); ?>
+    <form class="" action=" " method="post" enctype="multipart/form-data" id="contact_form">
+        <?php  include_once('./includes/forms/customer_form.php'); ?>
     </form>
 </div>
 

@@ -2,7 +2,7 @@
 require_once 'includes/MysqliDb.php';
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "admin";
 $dbname = "simpleadmin";
 // create connection object
 
