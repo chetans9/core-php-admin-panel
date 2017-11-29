@@ -1,7 +1,7 @@
 <?php
 session_start();
+require_once './config/config.php';
 require_once 'includes/auth_validate.php';
-require_once './config/database.php';
 
 $operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
 ($operation == 'edit') ? $edit = true : $edit = false;
@@ -19,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $data_to_store = filter_input_array(INPUT_POST);
     $id = $db->insert ('customers', $data_to_store);
     $stat = ($id)? TRUE :FALSE;
+
+    if($stat)
+    {
+    	$_SESSION['success'] = "Customer added successfully!";
+    	header('location: customers.php');
+    	exit();
+
+    }
    
 }
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
+require_once './config/config.php';
 require_once 'includes/auth_validate.php';
-require_once './config/database.php';
 
 //Only super admin is allowed to access this page
 if ($_SESSION['admin_type'] !== 'super') {
@@ -9,6 +9,8 @@ if ($_SESSION['admin_type'] !== 'super') {
     echo 'Permission Denied';
     exit();
 }
+$operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
+($operation == 'edit') ? $edit = true : $edit = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitize input post if we want
@@ -53,56 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
     <form class="well form-horizontal" action=" " method="post"  id="contact_form" enctype="multipart/form-data">
-        <fieldset>
-            <!-- Form Name -->
-          
-              <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label">User name</label>  
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input  type="text" name="user_name" placeholder="First Name" class="form-control" required=""  >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Text input-->
-
-            <div class="form-group">
-                <label class="col-md-4 control-label" >Password</label> 
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="password" name="passwd" placeholder="Last Name" class="form-control" required="" >
-                    </div>
-                </div>
-            </div>
-            <!-- radio checks -->
-            <div class="form-group">
-                <label class="col-md-4 control-label">User type</label>
-                <div class="col-md-4">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="admin_type" value="super" required=""/> Super admin
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="admin_type" value="admin" required=""/> Admin
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label"></label>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning" >Save <span class="glyphicon glyphicon-send"></span></button>
-                </div>
-            </div>
-
-        </fieldset>
+        <?php include_once './includes/forms/admin_users_form.php'; ?>
     </form>
 </div>
 

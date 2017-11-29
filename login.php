@@ -4,7 +4,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE) 
     header('Location:index.php');
 }
 
-require_once './config/database.php';
+require_once './config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth_validate.php';
-require_once './config/database.php';
+require_once './config/config.php';
 
 
 //Get data from query string
@@ -65,12 +65,14 @@ foreach ($result as $value) {
 require_once 'includes/header.php';
 ?>
 <div id="page-wrapper">
+
     <?php
     if (isset($del_stat) && $del_stat == 1) {
         echo '<div class="alert alert-info">Successfully deleted</div>';
     }
     ?>
     <div class="row">
+
         <div class="col-lg-6">
             <h1 class="page-header">Customers</h1>
         </div>
@@ -80,6 +82,7 @@ require_once 'includes/header.php';
             </div>
         </div>
     </div>
+        <?php include('./includes/flash_messages.php') ?>
     <!--    Begin filter section-->
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">

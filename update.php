@@ -1,34 +1,36 @@
 <?php
 session_start();
+require_once './config/config.php';
 require_once 'includes/auth_validate.php';
-require_once './config/database.php';
+
 
 // Sanitize if you want
 $customer_id = filter_input(INPUT_GET, 'customer_id', FILTER_VALIDATE_INT);
-
 $operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
 ($operation == 'edit') ? $edit = true : $edit = false;
-if($edit)
-{
-    $db->where('id', $customer_id);
-    $result = $db->get("customers");
-    foreach ($result as $row) {}
-}
 
+//Handle update request 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
    
     $data_to_update = filter_input_array(INPUT_POST);
     $db->where('id',$customer_id);
     $stat = $db->update('customers', $data_to_update);
+
+    if($stat)
+    {
+        $_SESSION['success'] = "Customer updated successfully!";
+        header('location: customers.php');
+        exit();
+    }
 }
 
-// $db->where('id', $customer_id);
-// $result = $db->get("customers");
-// // Set values to $row
-// foreach ($result as $row) {
-    
-// }
+if($edit)
+{
+    $db->where('id', $customer_id);
+    $result = $db->get("customers");
+    foreach ($result as $row) {}
+}
 
 require_once 'includes/header.php';
 ?>
