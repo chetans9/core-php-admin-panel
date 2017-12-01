@@ -78,7 +78,7 @@ require_once 'includes/header.php';
         </div>
         <div class="col-lg-6" style="">
             <div class="page-action-links text-right">
-            <a href="add.php?operation=create"> <button class="btn btn-success">Add new</button></a>
+            <a href="add_customer.php?operation=create"> <button class="btn btn-success">Add new</button></a>
             </div>
         </div>
     </div>
@@ -140,7 +140,7 @@ require_once 'includes/header.php';
                 echo '<td>' . $row['f_name'] . " " . $row['l_name'] . '</td>';
                 echo '<td>' . $row['gender'] . '</td>';
                 echo '<td>' . $row['phone'] . '</td>';
-                echo '<td><a href="update.php?customer_id=' . $row['id'] . '&operation=edit" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
+                echo '<td><a href="edit_customer.php?customer_id=' . $row['id'] . '&operation=edit" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
                 if($_SESSION['admin_type']=='super'){
                 echo '<a href="customers.php?del_customer_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span></td>';
                 

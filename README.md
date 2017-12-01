@@ -16,7 +16,3 @@ An Admin panel written in core php. It includes filters and pagination.
 *2.User access control :*
 		Allows you to create two types of user, admin and superadmin
 		Admin cannot delete information and cannot access/update accounts
-
-*3.Secure :*
-
-This project is SQL injection free.

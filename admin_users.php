@@ -83,6 +83,7 @@ require_once 'includes/header.php';
             </div>
         </div>
 </div>
+ <?php include('./includes/flash_messages.php') ?>
 
     <?php
     if (isset($del_stat) && $del_stat == 1) {
@@ -146,7 +147,7 @@ require_once 'includes/header.php';
                 echo '<td>' . $row['id'] . '</td>';
                 echo '<td>' . $row['user_name'] . '</td>';
                 echo '<td>' . $row['admin_type'] . '</td>';
-                echo '<td><a href="update_admin.php?admin_user_id=' . $row['id'] . '" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
+                echo '<td><a href="edit_admin.php?admin_user_id=' . $row['id'] . '&operation=edit" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
                 if ($_SESSION['admin_type'] == 'super') {
                     echo '<a href="admin_users.php?del_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span></td>';
                 }
@@ -178,10 +179,6 @@ require_once 'includes/header.php';
     </div>
 </div>
 <!--Main container end-->
-
-
-<?php include_once 'includes/footer.php'; ?>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $('.delete_btn').click(function () {
@@ -194,3 +191,6 @@ require_once 'includes/header.php';
         });
     });
 </script> 
+
+
+<?php include_once 'includes/footer.php'; ?>

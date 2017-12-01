@@ -1,34 +1,26 @@
 <?php
 session_start();
 require_once './config/config.php';
-require_once 'includes/auth_validate.php';
+require_once './includes/auth_validate.php';
 
-$operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
-($operation == 'edit') ? $edit = true : $edit = false;
 
-if($edit)
-{
-    $db->where('id', $customer_id);
-    $result = $db->get("customers");
-    foreach ($result as $row) {}
-}
-//serve POST method, create operation
+//serve POST method, After successful insert, redirect to customers.php page.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
     //Mass Insert Data. Keep "name" attribute in html form same as column name in mysql table.
     $data_to_store = filter_input_array(INPUT_POST);
-    $id = $db->insert ('customers', $data_to_store);
-    $stat = ($id)? TRUE :FALSE;
-
-    if($stat)
+    $last_id = $db->insert ('customers', $data_to_store);
+    
+    if($last_id)
     {
     	$_SESSION['success'] = "Customer added successfully!";
     	header('location: customers.php');
     	exit();
-
-    }
-   
+    }  
 }
+
+//We are using same form for adding and editing. This is a create form so declare $edit = false.
+$edit = false;
 
 require_once 'includes/header.php'; 
 ?>
@@ -39,19 +31,7 @@ require_once 'includes/header.php';
         </div>
         
 </div>
-
-
-    <!-- Success message -->
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($stat) {
-        echo '<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Form saved successfully.</div>';
-    } else {
-        echo '<div class="alert alert-danger">Failed to add</div>';
-    }
-}
-?>
-    <form class="form" action=" " method="post"  id="customer_form" enctype="multipart/form-data">
+    <form class="form" action="" method="post"  id="customer_form" enctype="multipart/form-data">
        <?php  include_once('./includes/forms/customer_form.php'); ?>
     </form>
 </div>
@@ -68,10 +48,8 @@ $(document).ready(function(){
             l_name: {
                 required: true,
                 minlength: 3
-            },
-            
+            },   
         }
-       
     });
 });
 </script>

@@ -5,10 +5,10 @@ define('APP_FOLDER','simpleadmin');
 define('BASE_URL', $_SERVER['SERVER_NAME']."");
 
 
-require_once BASE_PATH.'/includes/MysqliDb.php';
+require_once BASE_PATH.'/lib/MysqliDb.php';
 $servername = "localhost";
 $username = "root";
-$password = "admin";
+$password = "";
 $dbname = "simpleadmin";
 // create connection object
 
