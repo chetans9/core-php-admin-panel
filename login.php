@@ -7,8 +7,8 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE) 
 require_once './config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
+    $username = filter_input(INPUT_POST, 'username');
+    $passwd = filter_input(INPUT_POST, 'passwd');
     $passwd=  md5($passwd);
    
     $query = "SELECT * FROM admin_accounts WHERE user_name='$username' AND passwd='$passwd'";
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
 }
 
-require_once 'includes/header.php';
+include_once 'includes/header.php';
 ?>
 <div id="page-" class="col-md-4 col-md-offset-4">
 

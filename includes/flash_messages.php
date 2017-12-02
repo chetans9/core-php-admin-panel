@@ -13,9 +13,18 @@ if(isset($_SESSION['failure']))
 {
 echo '<div class="alert alert-danger alert-dismissable">
    		<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-    		<strong>Success! </strong>'. $_SESSION['failure'].'
+    		<strong>Oops! </strong>'. $_SESSION['failure'].'
   	  </div>';
-  unset($_SESSION['success']);
+  unset($_SESSION['failure']);
+}
+
+if(isset($_SESSION['info']))
+{
+echo '<div class="alert alert-info alert-dismissable">
+   		<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    		'. $_SESSION['info'].'
+  	  </div>';
+  unset($_SESSION['info']);
 }
 
  ?>
