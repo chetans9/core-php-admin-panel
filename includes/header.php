@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Simple Admin</title>
+        <title>Administrator</title>
 
         <!-- Bootstrap Core CSS -->
         <link  rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -37,7 +37,7 @@
         <div id="wrapper">
 
             <!-- Navigation -->
-            <?php if (isset($_SESSION['user_logged_in'])) : ?>
+            <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true ) : ?>
                 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -46,7 +46,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.html">Simple Admin</a>
+                        <a class="navbar-brand" href="">Administrator</a>
                     </div>
                     <!-- /.navbar-header -->
 
