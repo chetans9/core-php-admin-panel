@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $data_to_update = filter_input_array(INPUT_POST);
     
+    $data_to_update['updated_at'] = date('Y-m-d H:i:s');
+    
     $db->where('id',$customer_id);
     $stat = $db->update('customers', $data_to_update);
 

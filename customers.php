@@ -25,7 +25,7 @@ if ($order_by == "") {
 }
 
 // select the columns
-$select = array('id', 'f_name', 'l_name', 'gender', 'phone');
+$select = array('id', 'f_name', 'l_name', 'gender', 'phone','created_at','updated_at');
 
 // If user searches 
 if ($search_string) 
