@@ -80,8 +80,16 @@
                                     <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                                 </li>
 
-                                <li>
-                                    <a href="customers.php"><i class="fa fa-user-circle"></i> Customers</a>
+                                <li class="">
+                                    <a href="#"><i class="fa fa-user-circle fa-fw"></i> Customers<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="customers.php"><i class="fa fa-list fa-fw"></i>List all</a>
+                                        </li>
+                                    <li>
+                                        <a href="add_customer.php"><i class="fa fa-plus fa-fw"></i>Add New</a>
+                                    </li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="admin_users.php"><i class="fa fa-users"></i> Users</a>
