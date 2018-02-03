@@ -5,8 +5,7 @@ require_once 'includes/auth_validate.php';
 
 
 //Get Dashboard information
-$db->get('customers');
-$numCustomers = $db->count;
+$numCustomers = $db->getValue ("customers", "count(*)");
 
 include_once('includes/header.php');
 ?>
