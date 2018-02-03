@@ -6,8 +6,9 @@ require_once 'includes/auth_validate.php';
 //Only super admin is allowed to access this page
 if ($_SESSION['admin_type'] !== 'super') {
     // show permission denied message
-    echo 'Permission Denied';
-    exit();
+    header('HTTP/1.1 401 Unauthorized', true, 401);
+    
+    exit("401 Unauthorized");
 }
 //Get data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
@@ -27,17 +28,6 @@ if ($filter_col == "") {
 if ($order_by == "") {
     $order_by = "desc";
 }
-
-
-// Delete a user using user_id
-if ($del_id && $_SESSION['admin_type'] == 'super') {
-    $admin_user_id = filter_input(INPUT_GET, 'del_id');
-    $db->where('id', $admin_user_id);
-    $stat = $db->delete('admin_accounts');
-    if ($stat) {
-        $del_stat = TRUE;
-    }
-}
 // select the columns
 $select = array('id', 'user_name', 'admin_type');
 
@@ -48,11 +38,8 @@ if ($search_string) {
 
 
 if ($order_by) {
-
     $db->orderBy($filter_col, $order_by);
 }
-
-//$result = $db->get('customers',NULL,$select);
 
 $db->pageLimit = $pagelimit;
 $result = $db->arraybuilder()->paginate("admin_accounts", $page, $select);
@@ -69,7 +56,7 @@ foreach ($result as $value) {
 }
 
 
-require_once 'includes/header.php';
+include_once 'includes/header.php';
 ?>
 
 <div id="page-wrapper">
@@ -94,10 +81,10 @@ require_once 'includes/header.php';
     <!--    Begin filter section-->
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
-            <label for="input_search">Search</label>
-            <input type="text" id="input_search" name="search_string" value="<?php echo $search_string; ?>">
+            <label for="input_search" >Search</label>
+            <input type="text" class="form-control" id="input_search"  name="search_string" value="<?php echo $search_string; ?>">
             <label for ="input_order">Order By</label>
-            <select name="filter_col">
+            <select name="filter_col" class="form-control">
 
                 <?php
                 foreach ($filter_options as $option) {
@@ -108,7 +95,7 @@ require_once 'includes/header.php';
 
             </select>
 
-            <select name="order_by" class="" id="input_order">
+            <select name="order_by" class="form-control" id="input_order">
 
                 <option value="Asc" <?php
                 if ($order_by == 'Asc') {
@@ -126,10 +113,7 @@ require_once 'includes/header.php';
         </form>
     </div>
     <!--   Filter section end-->
-
     <hr>
-
-
     <table class="table table-striped table-bordered table-condensed">
         <thead>
             <tr>
@@ -137,23 +121,49 @@ require_once 'includes/header.php';
                 <th>Name</th>
                 <th>Admin type</th>
                 <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
-            <?php
-            foreach ($result as $row) {
-                echo '<tr>';
-                echo '<td>' . $row['id'] . '</td>';
-                echo '<td>' . $row['user_name'] . '</td>';
-                echo '<td>' . $row['admin_type'] . '</td>';
-                echo '<td><a href="edit_admin.php?admin_user_id=' . $row['id'] . '&operation=edit" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>';
-                if ($_SESSION['admin_type'] == 'super') {
-                    echo '<a href="admin_users.php?del_id=' . $row['id'] . '" class="btn btn-danger delete_btn" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span></td>';
-                }
-                echo '</tr>';
-            }
-            ?>      
+
+            <?php 
+            foreach ($result as $row) { ?>
+            
+            <tr>
+                <td><?php echo $row['id'] ?></td>
+                <td><?php echo $row['user_name'] ?></td>
+                <td><?php echo $row['admin_type'] ?></td>
+
+                <td>
+                    <a href="edit_admin.php?admin_user_id=<?php echo $row['id']?>&operation=edit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+
+                    <a href=""  class="btn btn-danger delete_btn" data-toggle="modal" data-target="#confirm-delete-<?php echo $row['id'] ?>" style="margin-right: 8px;"><span class="glyphicon glyphicon-trash"></span>
+                    
+                </td>
+            </tr>
+                <!-- Delete Confirmation Modal-->
+                     <div class="modal fade" id="confirm-delete-<?php echo $row['id'] ?>" role="dialog">
+                        <div class="modal-dialog">
+                          <form action="delete_user.php" method="POST">
+                          <!-- Modal content-->
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Confirm</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="del_id" id = "del_id" value="<?php echo $row['id'] ?>">
+                                    <p>Are you sure you want to delete this user?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-default pull-left">Yes</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                </div>
+                              </div>
+                          </form>
+                          
+                        </div>
+                    </div>
+            <?php } ?>   
         </tbody>
     </table>
     <!--    Pagination links-->
@@ -178,19 +188,4 @@ require_once 'includes/header.php';
         ?>
     </div>
 </div>
-<!--Main container end-->
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.delete_btn').click(function () {
-            var r = confirm("Are you sure?")
-            if (r == true) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-    });
-</script> 
-
-
 <?php include_once 'includes/footer.php'; ?>

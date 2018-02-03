@@ -1,46 +1,48 @@
 <?php
 session_start();
-require_once 'includes/auth_validate.php';
 require_once './config/config.php';
+require_once 'includes/auth_validate.php';
 
-// Serve deletion if POST method and del_id is set.
-
-//Get data from query string
+//Get Input data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
-
-
 $filter_col = filter_input(INPUT_GET, 'filter_col');
 $order_by = filter_input(INPUT_GET, 'order_by');
+//Get current page.
 $page = filter_input(INPUT_GET, 'page');
+//Per page limit for pagination.
 $pagelimit = 20;
-if ($page == "") {
+if (!$page) {
     $page = 1;
 }
 // If filter types are not selected we show latest added data first
-if ($filter_col == "") {
-    $filter_col = "id";
+if (!$filter_col) {
+    $filter_col = "created_at";
 }
-if ($order_by == "") {
-    $order_by = "desc";
+if (!$order_by) {
+    $order_by = "Desc";
 }
 
 // select the columns
 $select = array('id', 'f_name', 'l_name', 'gender', 'phone','created_at','updated_at');
 
-// If user searches 
+//Start building query according to input parameters.
+// If search string
 if ($search_string) 
 {
     $db->where('f_name', '%' . $search_string . '%', 'like');
     $db->orwhere('l_name', '%' . $search_string . '%', 'like');
 }
 
-
-if ($order_by) 
+//If order by option selected
+if ($order_by)
 {
     $db->orderBy($filter_col, $order_by);
 }
 
+//Set pagination limit
 $db->pageLimit = $pagelimit;
+
+//Get result of the query.
 $customers = $db->arraybuilder()->paginate("customers", $page, $select);
 $total_pages = $db->totalPages;
 
@@ -54,6 +56,8 @@ foreach ($customers as $value) {
 }
 include_once 'includes/header.php';
 ?>
+
+<!--Main container start-->
 <div id="page-wrapper">
     <div class="row">
 
@@ -73,9 +77,9 @@ include_once 'includes/header.php';
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Search</label>
-            <input type="text" id="input_search" name="search_string" value="<?php echo $search_string; ?>">
+            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo $search_string; ?>">
             <label for ="input_order">Order By</label>
-            <select name="filter_col">
+            <select name="filter_col" class="form-control">
 
                 <?php
                 foreach ($filter_options as $option) {
@@ -86,7 +90,7 @@ include_once 'includes/header.php';
 
             </select>
 
-            <select name="order_by" class="" id="input_order">
+            <select name="order_by" class="form-control" id="input_order">
 
                 <option value="Asc" <?php
                 if ($order_by == 'Asc') {
@@ -157,10 +161,6 @@ include_once 'includes/header.php';
 					      
 					    </div>
   					</div>
-
-                
-                
-           
             <?php } ?>      
         </tbody>
     </table>
@@ -172,12 +172,14 @@ include_once 'includes/header.php';
 
         <?php
         if (!empty($_GET)) {
-            //we must unset $_GET[page] if built by http_build_query function
+            //we must unset $_GET[page] if previously built by http_build_query function
             unset($_GET['page']);
+            //to keep the query sting parameters intact while navigating to next/prev page,
             $http_query = "?" . http_build_query($_GET);
         } else {
             $http_query = "?";
         }
+        //Show pagination links
         if ($total_pages > 1) {
             echo '<ul class="pagination text-center">';
             for ($i = 1; $i <= $total_pages; $i++) {
@@ -188,6 +190,7 @@ include_once 'includes/header.php';
         }
         ?>
     </div>
+    <!--    Pagination links end-->
 
 </div>
 <!--Main container end-->
