@@ -123,13 +123,12 @@ include_once 'includes/header.php';
             </tr>
         </thead>
         <tbody>
-            <?php
-            foreach ($customers as $row) { ?>
+            <?php foreach ($customers as $row) : ?>
                 <tr>
 	                <td><?php echo $row['id'] ?></td>
-	                <td><?php echo $row['f_name']." ".$row['l_name'] ?></td>
-	                <td><?php echo $row['gender'] ?></td>
-	                <td><?php echo $row['phone'] ?> </td>
+	                <td><?php echo htmlspecialchars($row['f_name']." ".$row['l_name']); ?></td>
+	                <td><?php echo htmlspecialchars($row['gender']) ?></td>
+	                <td><?php echo htmlspecialchars($row['phone']) ?> </td>
 	                <td>
 					<a href="edit_customer.php?customer_id=<?php echo $row['id'] ?>&operation=edit" class="btn btn-primary" style="margin-right: 8px;"><span class="glyphicon glyphicon-edit"></span>
 
@@ -161,7 +160,7 @@ include_once 'includes/header.php';
 					      
 					    </div>
   					</div>
-            <?php } ?>      
+            <?php endforeach; ?>      
         </tbody>
     </table>
 

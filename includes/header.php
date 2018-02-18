@@ -80,7 +80,7 @@
                                     <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                                 </li>
 
-                                <li class="">
+                                <li <?php echo (CURRENT_PAGE =="customers.php" || CURRENT_PAGE=="add_customer.php") ? 'class="active"' : '' ; ?>>
                                     <a href="#"><i class="fa fa-user-circle fa-fw"></i> Customers<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>

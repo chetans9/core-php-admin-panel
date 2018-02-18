@@ -125,13 +125,12 @@ include_once 'includes/header.php';
         </thead>
         <tbody>
 
-            <?php 
-            foreach ($result as $row) { ?>
-            
+            <?php foreach ($result as $row) : ?>
+                
             <tr>
                 <td><?php echo $row['id'] ?></td>
-                <td><?php echo $row['user_name'] ?></td>
-                <td><?php echo $row['admin_type'] ?></td>
+                <td><?php echo htmlspecialchars($row['user_name']) ?></td>
+                <td><?php echo htmlspecialchars($row['admin_type']) ?></td>
 
                 <td>
                     <a href="edit_admin.php?admin_user_id=<?php echo $row['id']?>&operation=edit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
@@ -163,7 +162,7 @@ include_once 'includes/header.php';
                           
                         </div>
                     </div>
-            <?php } ?>   
+            <?php endforeach; ?>   
         </tbody>
     </table>
     <!--    Pagination links-->

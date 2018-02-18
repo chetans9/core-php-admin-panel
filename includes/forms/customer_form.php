@@ -21,9 +21,9 @@
 
     <div class="form-group">
         <label for="address">Address</label>
-          <input name="address" value="<?php echo $edit ? $customer['address'] : ''; ?>" placeholder="Address" class="form-control" type="text" id="address">
+          <textarea name="address" placeholder="Address" class="form-control" id="address"><?php echo ($edit)? $customer['address'] : ''; ?></textarea>
     </div> 
-
+    
     <div class="form-group">
         <label>State </label>
            <?php $opt_arr = array("Maharashtra", "Kerala", "Madhya pradesh"); 
