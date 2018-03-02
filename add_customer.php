@@ -35,7 +35,7 @@ require_once 'includes/header.php';
         
 </div>
     <form class="form" action="" method="post"  id="customer_form" enctype="multipart/form-data">
-       <?php  include_once('./includes/forms/customer_form.php'); ?>
+       <?php  include_once('./forms/customer_form.php'); ?>
     </form>
 </div>
 

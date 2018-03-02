@@ -60,7 +60,7 @@ if($edit)
         
         <?php
             //Include the common form for add and edit  
-            require_once('./includes/forms/customer_form.php'); 
+            require_once('./forms/customer_form.php'); 
         ?>
     </form>
 </div>
