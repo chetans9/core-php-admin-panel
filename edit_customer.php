@@ -8,6 +8,7 @@ require_once 'includes/auth_validate.php';
 $customer_id = filter_input(INPUT_GET, 'customer_id', FILTER_VALIDATE_INT);
 $operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
 ($operation == 'edit') ? $edit = true : $edit = false;
+ $db = getDbInstance();
 
 //Handle update request. As the form's action attribute is set to the same script, but 'POST' method, 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $data_to_update = filter_input_array(INPUT_POST);
     
     $data_to_update['updated_at'] = date('Y-m-d H:i:s');
-    
+    $db = getDbInstance();
     $db->where('id',$customer_id);
     $stat = $db->update('customers', $data_to_update);
 

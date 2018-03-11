@@ -10,6 +10,7 @@ if ($_SESSION['admin_type'] !== 'super') {
     
     exit("401 Unauthorized");
 }
+$db = getDbInstance();
 //Get data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
 $del_id = filter_input(INPUT_GET, 'del_id');

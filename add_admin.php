@@ -14,7 +14,7 @@ if ($_SESSION['admin_type'] !== 'super') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
 	$data_to_store = filter_input_array(INPUT_POST);
-    
+    $db = getDbInstance();
     //Password should be md5 encrypted
     $data_to_store['passwd'] = md5($data_to_store['passwd']);
     $last_id = $db->insert ('admin_accounts', $data_to_store);

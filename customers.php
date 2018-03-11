@@ -11,6 +11,8 @@ $order_by = filter_input(INPUT_GET, 'order_by');
 $page = filter_input(INPUT_GET, 'page');
 //Per page limit for pagination.
 $pagelimit = 20;
+
+$db = getDbInstance();
 if (!$page) {
     $page = 1;
 }
@@ -22,6 +24,7 @@ if (!$order_by) {
     $order_by = "Desc";
 }
 
+$db = getDbInstance();
 // select the columns
 $select = array('id', 'f_name', 'l_name', 'gender', 'phone','created_at','updated_at');
 

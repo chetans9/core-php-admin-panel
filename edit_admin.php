@@ -5,6 +5,7 @@ require_once 'includes/auth_validate.php';
 
 
 $admin_user_id=  filter_input(INPUT_GET, 'admin_user_id');
+ $db = getDbInstance();
 //Serve POST request.  
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {

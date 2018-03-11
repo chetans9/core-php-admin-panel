@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $remember = filter_input(INPUT_POST, 'remember');
     $passwd=  md5($passwd);
    	
-    // $query = "SELECT * FROM admin_accounts WHERE user_name='$username' AND passwd='$passwd'";
-    // $row = $db->query($query);
+    //Get DB instance. function is defined in config.php
+    $db = getDbInstance();
 
     $db->where ("user_name", $username);
     $db->where ("passwd", $passwd);
