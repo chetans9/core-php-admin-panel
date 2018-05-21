@@ -10,7 +10,6 @@ if ($_SESSION['admin_type'] !== 'super') {
     
     exit("401 Unauthorized");
 }
-$db = getDbInstance();
 //Get data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
 $del_id = filter_input(INPUT_GET, 'del_id');
@@ -29,7 +28,9 @@ if ($filter_col == "") {
 if ($order_by == "") {
     $order_by = "desc";
 }
-// select the columns
+
+//Get DB instance. i.e instance of MYSQLiDB Library
+$db = getDbInstance();
 $select = array('id', 'user_name', 'admin_type');
 
 // If user searches 

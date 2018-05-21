@@ -7,16 +7,18 @@ require_once 'includes/auth_validate.php';
 $search_string = filter_input(INPUT_GET, 'search_string');
 $filter_col = filter_input(INPUT_GET, 'filter_col');
 $order_by = filter_input(INPUT_GET, 'order_by');
+
 //Get current page.
 $page = filter_input(INPUT_GET, 'page');
+
 //Per page limit for pagination.
 $pagelimit = 20;
 
-$db = getDbInstance();
 if (!$page) {
     $page = 1;
 }
-// If filter types are not selected we show latest added data first
+
+// If filter types are not selected we show latest created data first
 if (!$filter_col) {
     $filter_col = "created_at";
 }
@@ -24,8 +26,8 @@ if (!$order_by) {
     $order_by = "Desc";
 }
 
+//Get DB instance. i.e instance of MYSQLiDB Library
 $db = getDbInstance();
-// select the columns
 $select = array('id', 'f_name', 'l_name', 'gender', 'phone','created_at','updated_at');
 
 //Start building query according to input parameters.
