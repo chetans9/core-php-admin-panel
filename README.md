@@ -10,7 +10,7 @@ A Simple Admin Pannel written in core PHP. It contains an implementation of gene
   - Filters
 
 ### Live Demo :
-http://corephpadmin.000webhostapp.com/
+http://freecs9.epizy.com/core-php-admin
 Credentials :  
 **username** : chetan
 **password** : chetan
