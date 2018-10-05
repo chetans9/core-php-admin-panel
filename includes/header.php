@@ -92,7 +92,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="admin_users.php"><i class="fa fa-users"></i> Users</a>
+                                    <a href="admin_users.php"><i class="fa fa-users fa-fw"></i> Users</a>
                                 </li>
                             </ul>
                         </div>
