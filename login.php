@@ -12,6 +12,7 @@ if(isset($_COOKIE['username']) && isset($_COOKIE['password']))
 	//Get user credentials from cookies.
 	$username = filter_var($_COOKIE['username']);
 	$passwd = filter_var($_COOKIE['password']);
+	$db = getDbInstance();
 	$db->where ("user_name", $username);
 	$db->where ("passwd", $passwd);
     $row = $db->get('admin_accounts');
