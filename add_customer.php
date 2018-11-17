@@ -8,24 +8,30 @@ require_once './includes/auth_validate.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
     //Mass Insert Data. Keep "name" attribute in html form same as column name in mysql table.
-    $data_to_store = filter_input_array(INPUT_POST);
+    $data_to_store = array_filter($_POST);
+
     //Insert timestamp
     $data_to_store['created_at'] = date('Y-m-d H:i:s');
     $db = getDbInstance();
-    $last_id = $db->insert ('customers', $data_to_store);
+    
+    $last_id = $db->insert('customers', $data_to_store);
+
     
     if($last_id)
     {
-    	$_SESSION['success'] = "Customer added successfully!";
+    	 $_SESSION['success'] = "Customer added successfully!";
     	header('location: customers.php');
     	exit();
-    }  
+    }else{
+        echo 'insert failed: ' . $db->getLastError();
+        exit();
+    }
 }
 
 //We are using same form for adding and editing. This is a create form so declare $edit = false.
 $edit = false;
 
-require_once 'includes/header.php'; 
+require_once                                                                                                                                                     'includes/header.php'; 
 ?>
 <div id="page-wrapper">
 <div class="row">

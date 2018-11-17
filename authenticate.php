@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $passwd=  md5($passwd);
    	
     //Get DB instance. function is defined in config.php
-    $db = getDbInstance();
+     $db = getDbInstance();
 
     $db->where ("user_name", $username);
     $db->where ("passwd", $passwd);

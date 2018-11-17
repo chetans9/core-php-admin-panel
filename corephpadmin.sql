@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.6
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 30, 2018 at 05:54 AM
--- Server version: 10.1.29-MariaDB
--- PHP Version: 7.2.0
+-- Generation Time: Nov 17, 2018 at 09:46 PM
+-- Server version: 5.7.24-0ubuntu0.16.04.1
+-- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -42,7 +40,8 @@ CREATE TABLE `admin_accounts` (
 INSERT INTO `admin_accounts` (`id`, `user_name`, `passwd`, `admin_type`) VALUES
 (1, 'chetan', '3b8ebe34e784a3593693a37baaacb016', 'super'),
 (4, 'anand', '8bda8e915e629a9fd1bbca44f8099c81', 'admin'),
-(6, 'superadmin', '17c4520f6cfd1ab53d8745e84681eb49', 'super');
+(6, 'superadmin', '17c4520f6cfd1ab53d8745e84681eb49', 'super'),
+(7, 'uat', '2b80d2638773f80d58c987f01daabd01', 'admin');
 
 -- --------------------------------------------------------
 
@@ -54,13 +53,13 @@ CREATE TABLE `customers` (
   `id` int(10) NOT NULL,
   `f_name` varchar(25) NOT NULL,
   `l_name` varchar(25) NOT NULL,
-  `gender` varchar(6) NOT NULL,
+  `gender` varchar(6) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `city` varchar(15) NOT NULL,
-  `state` varchar(30) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `date_of_birth` date NOT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `state` varchar(30) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -91,7 +90,10 @@ INSERT INTO `customers` (`id`, `f_name`, `l_name`, `gender`, `address`, `city`, 
 (37, 'Jose', 'Pavarotti', 'male', '187 Suffolk Ln.', '', 'Maharashtra', '875213654', ' Pavarotti@gmail.com', '1997-02-04', NULL, NULL),
 (38, 'Palle', 'Ibsen', 'female', 'Smagsløget 45', '', 'Maharashtra', '9975245588', 'Palle@gmail.com', '1991-06-17', NULL, '2018-01-14 17:11:42'),
 (39, 'Paula', 'Parente', 'male', 'Rua do Mercado, 12', '', 'Maharashtra', '659984878', 'abc@gmail.com', '1996-02-06', NULL, NULL),
-(40, 'Matti', ' Karttunen', 'female', 'Keskuskatu 45', '', 'Maharashtra', '845555125', 'abc@abc.com', '1984-06-19', NULL, NULL);
+(40, 'Matti', ' Karttunen', 'female', 'Keskuskatu 45', '', 'Maharashtra', '845555125', 'abc@abc.com', '1984-06-19', NULL, NULL),
+(41, 'Chetan ', 'Doe', 'male', 'awdd', NULL, 'Kerala', '997539076', 'chetanshenai9@gmail.com', '2018-11-15', '2018-11-15 13:10:34', NULL),
+(42, 'Chetan ', 'Doe', 'male', 'afaw', NULL, 'Maharashtra', '984729294', 'admin@admin.com', '2018-11-23', '2018-11-17 16:14:51', NULL),
+(43, 'Chetan ', 'Doe', 'male', NULL, NULL, ' ', NULL, NULL, NULL, '2018-11-17 16:16:02', NULL);
 
 --
 -- Indexes for dumped tables
@@ -117,15 +119,12 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-COMMIT;
-
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
