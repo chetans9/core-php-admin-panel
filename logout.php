@@ -1,13 +1,13 @@
 <?php
+require_once './config/config.php';
 session_start();
 session_destroy();
 
-if(isset($_COOKIE['username']) && isset($_COOKIE['password'])){
-	unset($_COOKIE['username']);
-    unset($_COOKIE['password']);
-    setcookie('username', null, -1, '/');
-    setcookie('password', null, -1, '/');
+
+if(isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token'])){
+	clearAuthCookie();
 }
 header('Location:index.php');
+exit;
 
  ?>

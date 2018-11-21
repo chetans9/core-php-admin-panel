@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 17, 2018 at 09:46 PM
+-- Generation Time: Nov 21, 2018 at 03:18 PM
 -- Server version: 5.7.24-0ubuntu0.16.04.1
 -- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
@@ -28,8 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin_accounts` (
   `id` int(25) NOT NULL,
-  `user_name` varchar(20) NOT NULL,
-  `passwd` varchar(50) NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `passwd` varchar(255) NOT NULL,
+  `series_id` varchar(60) DEFAULT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
   `admin_type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,11 +40,11 @@ CREATE TABLE `admin_accounts` (
 -- Dumping data for table `admin_accounts`
 --
 
-INSERT INTO `admin_accounts` (`id`, `user_name`, `passwd`, `admin_type`) VALUES
-(1, 'chetan', '3b8ebe34e784a3593693a37baaacb016', 'super'),
-(4, 'anand', '8bda8e915e629a9fd1bbca44f8099c81', 'admin'),
-(6, 'superadmin', '17c4520f6cfd1ab53d8745e84681eb49', 'super'),
-(7, 'uat', '2b80d2638773f80d58c987f01daabd01', 'admin');
+INSERT INTO `admin_accounts` (`id`, `user_name`, `passwd`, `series_id`, `remember_token`, `expires`, `admin_type`) VALUES
+(3, 'root', '$2y$10$syHHgu.lgAUcLH/p1bJNRuQcLqwBVDNsL5mYnS3uVL4gs7apT1pni', NULL, NULL, NULL, 'admin'),
+(4, 'superadmin', '$2y$10$xpZc5KC.aU2XHkcqhuZGFuAnqmtL4Unt8MysOyylceq.19XIyoZpG', 'DJf6u76sLwu3CVpw', '$2y$10$ltxNketjQ7xG.XjwoDIqAOB5TxlUr6QQdzAFqkf6y8UMIKWDHX0Ji', '2018-12-21 15:17:46', 'super'),
+(5, 'admin', '$2y$10$12mUh2Gm8whTplS1zqfdRenBp24osPFe7Llli3OKxn2ijYkHuxxve', NULL, NULL, NULL, 'admin'),
+(6, 'chetanw', '$2y$10$iJSznl9t/iJmJWW1GcJyS.QJJ/pt8bR.jaixq5eZRzhbmGTW2QMLK', NULL, NULL, NULL, 'admin');
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,6 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `f_name`, `l_name`, `gender`, `address`, `city`, `state`, `phone`, `email`, `date_of_birth`, `created_at`, `updated_at`) VALUES
-(12, 'Chetan', 'Shenai', 'male', 'Priyadarshini', 'mumbai', 'Maharashtra', '34343432', 'chetanshenai9@gmail.com', '1995-06-05', NULL, NULL),
 (18, 'bhushan', 'Chhadva', 'male', 'Padmavati', 'mumbai', 'Maharashtra', '34343432', 'bhusahan2@gmail.com', '1991-06-18', NULL, NULL),
 (19, 'Jayant', 'atre', 'male', 'Priyadarshini A102, adwa2', 'wad', 'Maharashtra', '34343432', 'bhusahan2@gmail.com', '1998-05-18', NULL, NULL),
 (21, 'bhushan', 'sutar', 'male', 'Priyadarshini A102, adwa2', 'mumbai', 'Maharashtra', '34343432', 'bhusahan2@gmail.com', '2016-11-24', NULL, NULL),
@@ -91,9 +93,8 @@ INSERT INTO `customers` (`id`, `f_name`, `l_name`, `gender`, `address`, `city`, 
 (38, 'Palle', 'Ibsen', 'female', 'Smagsløget 45', '', 'Maharashtra', '9975245588', 'Palle@gmail.com', '1991-06-17', NULL, '2018-01-14 17:11:42'),
 (39, 'Paula', 'Parente', 'male', 'Rua do Mercado, 12', '', 'Maharashtra', '659984878', 'abc@gmail.com', '1996-02-06', NULL, NULL),
 (40, 'Matti', ' Karttunen', 'female', 'Keskuskatu 45', '', 'Maharashtra', '845555125', 'abc@abc.com', '1984-06-19', NULL, NULL),
-(41, 'Chetan ', 'Doe', 'male', 'awdd', NULL, 'Kerala', '997539076', 'chetanshenai9@gmail.com', '2018-11-15', '2018-11-15 13:10:34', NULL),
-(42, 'Chetan ', 'Doe', 'male', 'afaw', NULL, 'Maharashtra', '984729294', 'admin@admin.com', '2018-11-23', '2018-11-17 16:14:51', NULL),
-(43, 'Chetan ', 'Doe', 'male', NULL, NULL, ' ', NULL, NULL, NULL, '2018-11-17 16:16:02', NULL);
+(47, 'Chetan ', 'Doe', 'male', 'afa', NULL, 'Maharashtra', '9934678658', 'chetanshenai9@gmail.com', NULL, '2018-11-17 18:26:16', NULL),
+(48, 'Chetan ', 'Singh', 'male', NULL, NULL, ' ', NULL, NULL, NULL, '2018-11-18 06:51:27', NULL);
 
 --
 -- Indexes for dumped tables
@@ -103,7 +104,8 @@ INSERT INTO `customers` (`id`, `f_name`, `l_name`, `gender`, `address`, `city`, 
 -- Indexes for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
 
 --
 -- Indexes for table `customers`
@@ -119,12 +121,12 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

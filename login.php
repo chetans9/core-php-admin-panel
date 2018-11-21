@@ -1,42 +1,57 @@
 <?php
 session_start();
+
 require_once './config/config.php';
+$token = bin2hex(openssl_random_pseudo_bytes(16));
+
 //If User has already logged in, redirect to dashboard page.
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE) {
-    header('Location:index.php');
+	header('Location:index.php');
 }
 
-//If user has previously selected "remember me option", his credentials are stored in cookies.
-if(isset($_COOKIE['username']) && isset($_COOKIE['password']))
-{
+//If user has previously selected "remember me option" : 
+if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token'])) {
+
 	//Get user credentials from cookies.
-	$username = filter_var($_COOKIE['username']);
-	$passwd = filter_var($_COOKIE['password']);
+	$series_id = filter_var($_COOKIE['series_id']);
+	$remember_token = filter_var($_COOKIE['remember_token']);
 	$db = getDbInstance();
-	$db->where ("user_name", $username);
-	$db->where ("passwd", $passwd);
-    $row = $db->get('admin_accounts');
+	//Get user By serirs ID : 
+	$db->where("series_id", $series_id);
+	$row = $db->get('admin_accounts');
 
-    if ($db->count >= 1) 
-    {
-    	//Allow user to login.
-        $_SESSION['user_logged_in'] = TRUE;
-        $_SESSION['admin_type'] = $row[0]['admin_type'];
-        header('Location:index.php');
-        exit;
-    }
-    else //Username Or password might be changed. Unset cookie
-    {
-    unset($_COOKIE['username']);
-    unset($_COOKIE['password']);
-    setcookie('username', null, -1, '/');
-    setcookie('password', null, -1, '/');
-    header('Location:login.php');
-    exit;
-    }
+
+	if ($db->count >= 1) {
+
+		//User found. verify remember token
+		if (password_verify($remember_token, $row[0]['remember_token'])) {
+			//Verify if expiry time is modified. 
+
+			$expires = strtotime($row[0]['expires']);
+
+			if(strtotime(date()) > $expires){
+				
+				//Remember Cookie has expired. 
+				clearAuthCookie();
+				header('Location:login.php');
+				exit;
+			}
+			
+			$_SESSION['user_logged_in'] = TRUE;
+			$_SESSION['admin_type'] = $row[0]['admin_type'];
+			header('Location:index.php');
+			exit;
+		} else {
+			clearAuthCookie();
+			header('Location:login.php');
+			exit;
+		}
+	} else {
+		clearAuthCookie();
+		header('Location:login.php');
+		exit;
+	}
 }
-
-
 
 include_once 'includes/header.php';
 ?>
@@ -59,15 +74,15 @@ include_once 'includes/header.php';
 					</label>
 				</div>
 				<?php
-				if(isset($_SESSION['login_failure'])){ ?>
+if (isset($_SESSION['login_failure'])) {?>
 				<div class="alert alert-danger alert-dismissable fade in">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<?php echo $_SESSION['login_failure']; unset($_SESSION['login_failure']);?>
+					<?php echo $_SESSION['login_failure'];unset($_SESSION['login_failure']); ?>
 				</div>
-				<?php } ?>
+				<?php }?>
 				<button type="submit" class="btn btn-success loginField" >Login</button>
 			</div>
 		</div>
 	</form>
 </div>
-<?php include_once 'includes/footer.php'; ?>
+<?php include_once 'includes/footer.php';?>

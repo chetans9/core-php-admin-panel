@@ -15,11 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	$data_to_store = filter_input_array(INPUT_POST);
     $db = getDbInstance();
-    //Password should be md5 encrypted
-    $data_to_store['passwd'] = md5($data_to_store['passwd']);
+    //Check whether the user name already exists ; 
+    $db->where('user_name',$data_to_store['user_name']);
+    $db->get('admin_accounts');
+    
+    if($db->count >=1){
+        $_SESSION['failure'] = "User name already exists";
+        header('location: add_admin.php');
+        exit();
+    }
+
+    //Encrypt password
+    $data_to_store['passwd'] = password_hash($data_to_store['passwd'],PASSWORD_DEFAULT);
+    //reset db instance
+    $db = getDbInstance();
     $last_id = $db->insert ('admin_accounts', $data_to_store);
     if($last_id)
     {
+
     	$_SESSION['success'] = "Admin user added successfully!";
     	header('location: admin_users.php');
     	exit();
@@ -38,7 +51,9 @@ require_once 'includes/header.php';
 			<h2 class="page-header">Add User</h2>
 		</div>
 	</div>
-	<!-- Success message -->
+	 <?php 
+    include_once('includes/flash_messages.php');
+    ?>
 	<form class="well form-horizontal" action=" " method="post"  id="contact_form" enctype="multipart/form-data">
 		<?php include_once './forms/admin_users_form.php'; ?>
 	</form>

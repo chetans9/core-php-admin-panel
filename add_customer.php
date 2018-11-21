@@ -5,7 +5,7 @@ require_once './includes/auth_validate.php';
 
 
 //serve POST method, After successful insert, redirect to customers.php page.
-if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') 
 {
     //Mass Insert Data. Keep "name" attribute in html form same as column name in mysql table.
     $data_to_store = array_filter($_POST);
@@ -16,13 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     
     $last_id = $db->insert('customers', $data_to_store);
 
-    
     if($last_id)
     {
-    	 $_SESSION['success'] = "Customer added successfully!";
+    	$_SESSION['success'] = "Customer added successfully!";
     	header('location: customers.php');
     	exit();
-    }else{
+    }
+    else
+    {
         echo 'insert failed: ' . $db->getLastError();
         exit();
     }
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 //We are using same form for adding and editing. This is a create form so declare $edit = false.
 $edit = false;
 
-require_once                                                                                                                                                     'includes/header.php'; 
+require_once 'includes/header.php'; 
 ?>
 <div id="page-wrapper">
 <div class="row">
