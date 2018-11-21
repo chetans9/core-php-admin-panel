@@ -5,7 +5,7 @@ A Simple Admin Pannel written in core PHP. It contains an implementation of gene
 
   - Record management (CRUD)
   - Bootstrap based HTML template.
-  - Authentication and Authorization.
+  - Secure Authentication
   - Pagination
   - Filters
 
