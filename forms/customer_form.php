@@ -21,7 +21,7 @@
 
     <div class="form-group">
         <label for="address">Address</label>
-          <textarea name="address" placeholder="Address" class="form-control" id="address"><?php echo ($edit)? $customer['address'] : ''; ?></textarea>
+          <textarea name="address" placeholder="Address" class="form-control" id="address"><?php echo htmlspecialchars(($edit) ? $customer['address'] : '', ENT_QUOTES, 'UTF-8'); ?></textarea>
     </div> 
     
     <div class="form-group">
