@@ -34,7 +34,7 @@ CREATE TABLE `admin_accounts` (
   `remember_token` varchar(255) DEFAULT NULL,
   `expires` datetime DEFAULT NULL,
   `admin_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `admin_accounts`
@@ -65,7 +65,7 @@ CREATE TABLE `customers` (
   `date_of_birth` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `customers`
