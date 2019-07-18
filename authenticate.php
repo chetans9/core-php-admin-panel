@@ -1,41 +1,41 @@
 <?php
-require_once './config/config.php';
+require_once 'config/config.php';
 session_start();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
 	$username = filter_input(INPUT_POST, 'username');
-	$passwd = filter_input(INPUT_POST, 'passwd');
+	$password = filter_input(INPUT_POST, 'password');
 	$remember = filter_input(INPUT_POST, 'remember');
 
-	//Get DB instance.
+	// Get DB instance.
 	$db = getDbInstance();
 
-	$db->where("user_name", $username);
+	$db->where('user_name', $username);
+	$row = $db->getOne('admin_accounts');
 
-	$row = $db->get('admin_accounts');
+	if ($db->count >= 1)
+    {
+		$db_password = $row['password'];
+		$user_id = $row['id'];
 
-	if ($db->count >= 1) {
-
-		$db_password = $row[0]['passwd'];
-		$user_id = $row[0]['id'];
-
-		if (password_verify($passwd, $db_password)) {
-
+		if (password_verify($password, $db_password))
+        {
 			$_SESSION['user_logged_in'] = TRUE;
-			$_SESSION['admin_type'] = $row[0]['admin_type'];
+			$_SESSION['admin_type'] = $row['admin_type'];
+            $_SESSION['user_id'] = $row['id'];
 
-			if ($remember) {
-
+			if ($remember)
+            {
 				$series_id = randomString(16);
 				$remember_token = getSecureRandomToken(20);
 				$encryted_remember_token = password_hash($remember_token,PASSWORD_DEFAULT);
-				
 
 				$expiry_time = date('Y-m-d H:i:s', strtotime(' + 30 days'));
-
 				$expires = strtotime($expiry_time);
-				
-				setcookie('series_id', $series_id, $expires, "/");
-				setcookie('remember_token', $remember_token, $expires, "/");
+
+				setcookie('series_id', $series_id, $expires, '/');
+				setcookie('remember_token', $remember_token, $expires, '/');
 
 				$db = getDbInstance();
 				$db->where ('id',$user_id);
@@ -45,24 +45,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					'remember_token' => $encryted_remember_token,
 					'expires' =>$expiry_time
 				);
-				$db->update("admin_accounts", $update_remember);
+				$db->update('admin_accounts', $update_remember);
 			}
-			//Authentication successfull redirect user
-			header('Location:index.php');
-
-		} else {
-			$_SESSION['login_failure'] = "Invalid user name or password";
-			header('Location:login.php');
+			// Authentication successfull redirect user
+			header('Location: index.php');
 		}
-
-		exit;
-	} else {
-		$_SESSION['login_failure'] = "Invalid user name or password";
-		header('Location:login.php');
+        else
+        {
+			$_SESSION['login_failure'] = 'Invalid user name or password';
+			header('Location: login.php');
+		}
 		exit;
 	}
-
+    else
+    {
+		$_SESSION['login_failure'] = 'Invalid user name or password';
+		header('Location: login.php');
+		exit;
+	}
 }
-else {
+else
+{
 	die('Method Not allowed');
 }
