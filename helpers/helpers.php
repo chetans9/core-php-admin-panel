@@ -53,20 +53,11 @@ function clean_input($data) {
 
 function paginationLinks($current_page, $total_pages, $base_url) {
 
-	$html = '';
-
 	if ($total_pages <= 1) {
-		return '';
+		return fasle;
 	}
 
-	$html = '<ul class="pagination text-center">';
-
-	if ($current_page == 1) {
-
-		$html .= '<li class="disabled"><a>First</a></li>';
-	} else {
-		$html .= '<li><a href="' . '?page=1">First</a></li>';
-	}
+	$html = '';
 
 	if (!empty($_GET)) {
 		// We must unset $_GET[page] if previously built by http_build_query function
@@ -76,6 +67,16 @@ function paginationLinks($current_page, $total_pages, $base_url) {
 	} else {
 		$http_query = "?";
 	}
+
+	$html = '<ul class="pagination text-center">';
+
+	if ($current_page == 1) {
+
+		$html .= '<li class="disabled"><a>First</a></li>';
+	} else {
+		$html .= '<li><a href="' . $base_url . $http_query . '&page=1">First</a></li>';
+	}
+
 	// Show pagination links
 
 	//var i = (Number(data.page) > 5 ? Number(data.page) - 4 : 1);
