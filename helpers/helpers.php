@@ -54,7 +54,7 @@ function clean_input($data) {
 function paginationLinks($current_page, $total_pages, $base_url) {
 
 	if ($total_pages <= 1) {
-		return fasle;
+		return false;
 	}
 
 	$html = '';
