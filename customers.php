@@ -8,52 +8,50 @@ require_once BASE_PATH . '/lib/Costumers/Costumers.php';
 $costumers = new Costumers();
 
 // Get Input data from query string
-$search_string = filter_input(INPUT_GET, 'search_string');
-$filter_col = filter_input(INPUT_GET, 'filter_col');
-$order_by = filter_input(INPUT_GET, 'order_by');
+$order_by	= filter_input(INPUT_GET, 'order_by');
+$order_dir	= filter_input(INPUT_GET, 'order_dir');
+$search_str	= filter_input(INPUT_GET, 'search_str');
 
-// Per page limit for pagination.
+// Per page limit for pagination
 $pagelimit = 15;
 
-// Get current page.
+// Get current page
 $page = filter_input(INPUT_GET, 'page');
 if (!$page) {
 	$page = 1;
 }
 
 // If filter types are not selected we show latest added data first
-if (!$filter_col) {
-	$filter_col = 'id';
-}
 if (!$order_by) {
-	$order_by = 'Desc';
+	$order_by = 'id';
+}
+if (!$order_dir) {
+	$order_dir = 'Desc';
 }
 
-//Get DB instance. i.e instance of MYSQLiDB Library
+// Get DB instance. i.e instance of MYSQLiDB Library
 $db = getDbInstance();
 $select = array('id', 'f_name', 'l_name', 'gender', 'phone', 'created_at', 'updated_at');
 
-//Start building query according to input parameters.
+// Start building query according to input parameters
 // If search string
-if ($search_string) {
-	$db->where('f_name', '%' . $search_string . '%', 'like');
-	$db->orwhere('l_name', '%' . $search_string . '%', 'like');
+if ($search_str) {
+	$db->where('f_name', '%' . $search_str . '%', 'like');
+	$db->orwhere('l_name', '%' . $search_str . '%', 'like');
 }
-
-//If order by option selected
-if ($order_by) {
-	$db->orderBy($filter_col, $order_by);
+// If order direction option selected
+if ($order_dir) {
+	$db->orderBy($order_by, $order_dir);
 }
 
 // Set pagination limit
 $db->pageLimit = $pagelimit;
 
-// Get result of the query.
+// Get result of the query
 $rows = $db->arraybuilder()->paginate('customers', $page, $select);
 $total_pages = $db->totalPages;
-
-include BASE_PATH . '/includes/header.php';
 ?>
+<?php include BASE_PATH . '/includes/header.php'; ?>
 <!-- Main container -->
 <div id="page-wrapper">
     <div class="row">
@@ -66,15 +64,15 @@ include BASE_PATH . '/includes/header.php';
             </div>
         </div>
     </div>
-    <?php include BASE_PATH . '/includes/flash_messages.php';?>
+    <?php include BASE_PATH . '/includes/flash_messages.php'; ?>
 
     <!-- Filters -->
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Search</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo htmlspecialchars($search_string, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_str" value="<?php echo htmlspecialchars($search_str, ENT_QUOTES, 'UTF-8'); ?>">
             <label for="input_order">Order By</label>
-            <select name="filter_col" class="form-control">
+            <select name="order_by" class="form-control">
                 <?php
 foreach ($costumers->setOrderingValues() as $opt_value => $opt_name):
 	($order_by === $opt_value) ? $selected = 'selected' : $selected = '';
@@ -82,14 +80,14 @@ foreach ($costumers->setOrderingValues() as $opt_value => $opt_name):
 endforeach;
 ?>
             </select>
-            <select name="order_by" class="form-control" id="input_order">
+            <select name="order_dir" class="form-control" id="input_order">
                 <option value="Asc" <?php
-if ($order_by == 'Asc') {
+if ($order_dir == 'Asc') {
 	echo 'selected';
 }
 ?> >Asc</option>
                 <option value="Desc" <?php
-if ($order_by == 'Desc') {
+if ($order_dir == 'Desc') {
 	echo 'selected';
 }
 ?>>Desc</option>
@@ -146,16 +144,16 @@ if ($order_by == 'Desc') {
                 </div>
             </div>
             <!-- //Delete Confirmation Modal -->
-            <?php endforeach;?>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <!-- //Table -->
 
     <!-- Pagination -->
     <div class="text-center">
-    <?php echo paginationLinks($page, $total_pages, 'customers.php'); ?>
+    	<?php echo paginationLinks($page, $total_pages, 'customers.php'); ?>
     </div>
     <!-- //Pagination -->
 </div>
 <!-- //Main container -->
-<?php include BASE_PATH . '/includes/footer.php';?>
+<?php include BASE_PATH . '/includes/footer.php'; ?>
