@@ -1,72 +1,57 @@
 <?php
 session_start();
 require_once 'config/config.php';
-require_once BASE_PATH.'/includes/auth_validate.php';
+require_once BASE_PATH . '/includes/auth_validate.php';
 
 // Users class
-require_once BASE_PATH.'/lib/Users/Users.php';
+require_once BASE_PATH . '/lib/Users/Users.php';
 $users = new Users();
 
-// Only super admin is allowed to access this page
-if ($_SESSION['admin_type'] !== 'super')
-{
-    // Show permission denied message
-    header('HTTP/1.1 401 Unauthorized', true, 401);
-    exit('401 Unauthorized');
-}
-
 // Get Input data from query string
-$search_string = filter_input(INPUT_GET, 'search_string');
-$filter_col = filter_input(INPUT_GET, 'filter_col');
-$order_by = filter_input(INPUT_GET, 'order_by');
-$del_id = filter_input(INPUT_GET, 'del_id');
+$del_id		= filter_input(INPUT_GET, 'del_id');
+$order_by	= filter_input(INPUT_GET, 'order_by');
+$order_dir	= filter_input(INPUT_GET, 'order_dir');
+$search_str	= filter_input(INPUT_GET, 'search_str');
 
-// Per page limit for pagination.
-$pagelimit = 20;
+// Per page limit for pagination
+$pagelimit = 15;
 
-// Get current page.
+// Get current page
 $page = filter_input(INPUT_GET, 'page');
-if (!$page)
-{
-    $page = 1;
+if (!$page) {
+	$page = 1;
 }
 
 // If filter types are not selected we show latest added data first
-if (!$filter_col)
-{
-    $filter_col = 'id';
+if (!$order_by) {
+	$order_by = 'id';
 }
-if (!$order_by)
-{
-    $order_by = 'Desc';
+if (!$order_dir) {
+	$order_dir = 'Desc';
 }
 
-//Get DB instance. i.e instance of MYSQLiDB Library
+// Get DB instance. i.e instance of MYSQLiDB Library
 $db = getDbInstance();
 $select = array('id', 'user_name', 'admin_type');
 
-//Start building query according to input parameters.
+// Start building query according to input parameters
 // If search string
-if ($search_string)
-{
-    $db->where('user_name', '%' . $search_string . '%', 'like');
+if ($search_str) {
+	$db->where('user_name', '%' . $search_str . '%', 'like');
 }
-
-//If order by option selected
-if ($order_by)
-{
-    $db->orderBy($filter_col, $order_by);
+// If order direction option selected
+if ($order_dir) {
+	$db->orderBy($order_by, $order_dir);
 }
 
 // Set pagination limit
 $db->pageLimit = $pagelimit;
 
-// Get result of the query.
+// Get result of the query
 $rows = $db->arraybuilder()->paginate('admin_accounts', $page, $select);
 $total_pages = $db->totalPages;
-
-include BASE_PATH.'/includes/header.php';
 ?>
+<?php include BASE_PATH . '/includes/header.php'; ?>
 <!-- Main container -->
 <div id="page-wrapper">
     <div class="row">
@@ -79,7 +64,7 @@ include BASE_PATH.'/includes/header.php';
             </div>
         </div>
     </div>
-    <?php include BASE_PATH.'/includes/flash_messages.php'; ?>
+    <?php include BASE_PATH . '/includes/flash_messages.php'; ?>
 
     <?php
     if (isset($del_stat) && $del_stat == 1)
@@ -92,27 +77,27 @@ include BASE_PATH.'/includes/header.php';
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Search</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo htmlspecialchars($search_string, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_str" value="<?php echo htmlspecialchars($search_str, ENT_QUOTES, 'UTF-8'); ?>">
             <label for="input_order">Order By</label>
-            <select name="filter_col" class="form-control">
+            <select name="order_by" class="form-control">
                 <?php
-                foreach ($users->setOrderingValues() as $opt_value => $opt_name):
-                    ($order_by === $opt_value) ? $selected = 'selected' : $selected = '';
-                    echo ' <option value="'.$opt_value.'" '.$selected.'>'.$opt_name.'</option>';
-                endforeach;
-                ?>
+foreach ($users->setOrderingValues() as $opt_value => $opt_name):
+	($order_by === $opt_value) ? $selected = 'selected' : $selected = '';
+	echo ' <option value="' . $opt_value . '" ' . $selected . '>' . $opt_name . '</option>';
+endforeach;
+?>
             </select>
-            <select name="order_by" class="form-control" id="input_order">
+            <select name="order_dir" class="form-control" id="input_order">
                 <option value="Asc" <?php
-                if ($order_by == 'Asc') {
-                    echo 'selected';
-                }
-                ?> >Asc</option>
+if ($order_dir == 'Asc') {
+	echo 'selected';
+}
+?> >Asc</option>
                 <option value="Desc" <?php
-                if ($order_by == 'Desc') {
-                    echo 'selected';
-                }
-                ?>>Desc</option>
+if ($order_dir == 'Desc') {
+	echo 'selected';
+}
+?>>Desc</option>
             </select>
             <input type="submit" value="Go" class="btn btn-primary">
         </form>
@@ -125,7 +110,7 @@ include BASE_PATH.'/includes/header.php';
         <thead>
             <tr>
                 <th width="5%">ID</th>
-                <th width="45%">Name</th>
+                <th width="45%">Username</th>
                 <th width="40%">Admin type</th>
                 <th width="10%">Actions</th>
             </tr>
@@ -171,27 +156,9 @@ include BASE_PATH.'/includes/header.php';
 
     <!-- Pagination -->
     <div class="text-center">
-        <?php
-        if (!empty($_GET)) {
-            // We must unset $_GET[page] if previously built by http_build_query function
-            unset($_GET['page']);
-            // To keep the query sting parameters intact while navigating to next/prev page,
-            $http_query = "?" . http_build_query($_GET);
-        } else {
-            $http_query = "?";
-        }
-        // Show pagination links
-        if ($total_pages > 1) {
-            echo '<ul class="pagination text-center">';
-            for ($i = 1; $i <= $total_pages; $i++) {
-                ($page == $i) ? $li_class = ' class="active"' : $li_class = '';
-                echo '<li' . $li_class . '><a href="admin_users.php' . $http_query . '&page=' . $i . '">' . $i . '</a></li>';
-            }
-            echo '</ul>';
-        }
-        ?>
+    	<?php echo paginationLinks($page, $total_pages, 'admin_users.php'); ?>
     </div>
     <!-- //Pagination -->
 </div>
 <!-- //Main container -->
-<?php include BASE_PATH.'/includes/footer.php'; ?>
+<?php include BASE_PATH . '/includes/footer.php'; ?>
