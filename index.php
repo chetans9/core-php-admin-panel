@@ -1,16 +1,13 @@
 <?php
-session_start();
-require_once './config/config.php';
-require_once 'includes/auth_validate.php';
-
-//Get DB instance. function is defined in config.php
-$db = getDbInstance();
-
-//Get Dashboard information
-$numCustomers = $db->getValue ("customers", "count(*)");
-
-include_once('includes/header.php');
+require_once 'config/config.php';
+// Auth class
+require_once BASE_PATH . '/lib/System/Auth.php';
+$auth = new Authentication;
+// Customers class
+require_once BASE_PATH . '/customers/models/customersModel.php';
+$customers = new Customers;
 ?>
+<?php include BASE_PATH . '/includes/header.php'; ?>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -28,12 +25,12 @@ include_once('includes/header.php');
                             <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"><?php echo $numCustomers; ?></div>
+                            <div class="huge"><?php echo $customers->getTotal(); ?></div>
                             <div>Customers</div>
                         </div>
                     </div>
                 </div>
-                <a href="customers.php">
+                <a href="<?php echo $base_url; ?>/customers/customers.php">
                     <div class="panel-footer">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -88,5 +85,4 @@ include_once('includes/header.php');
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-
-<?php include_once('includes/footer.php'); ?>
+<?php include BASE_PATH . '/includes/footer.php'; ?>

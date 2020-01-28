@@ -9,23 +9,23 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE)
 	header('Location: index.php');
 }
 
-// If user has previously selected "remember me option": 
+// If user has previously selected "remember me option"
 if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token']))
 {
 	// Get user credentials from cookies.
 	$series_id = filter_var($_COOKIE['series_id']);
 	$remember_token = filter_var($_COOKIE['remember_token']);
 	$db = getDbInstance();
-	// Get user By series ID: 
+	// Get user By series ID
 	$db->where('series_id', $series_id);
-	$row = $db->getOne('admin_accounts');
+	$row = $db->getOne('users_accounts');
 
 	if ($db->count >= 1)
 	{
 		// User found. verify remember token
 		if (password_verify($remember_token, $row['remember_token']))
         {
-			// Verify if expiry time is modified. 
+			// Verify if expiry time is modified
 			$expires = strtotime($row['expires']);
 
 			if (strtotime(date()) > $expires)
@@ -37,7 +37,7 @@ if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token']))
 			}
 
 			$_SESSION['user_logged_in'] = TRUE;
-			$_SESSION['admin_type'] = $row['admin_type'];
+			$_SESSION['id_group'] = $row['id_group'];
 			header('Location: index.php');
 			exit;
 		}
@@ -56,11 +56,11 @@ if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token']))
 	}
 }
 ?>
-<?php include BASE_PATH.'/includes/header.php'; ?>
-<div id="page-" class="col-md-4 col-md-offset-4">
+<?php include BASE_PATH . '/includes/header.php'; ?>
+<div class="col-md-4 col-md-offset-4">
 	<form class="form loginform" method="POST" action="authenticate.php">
 		<div class="login-panel panel panel-default">
-			<div class="panel-heading">Please Sign in</div>
+			<div class="panel-heading">Please sign in</div>
 			<div class="panel-body">
 				<div class="form-group">
 					<label class="control-label">Username</label>
@@ -75,18 +75,18 @@ if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token']))
 						<input name="remember" type="checkbox" value="1">Remember Me
 					</label>
 				</div>
-				<?php if (isset($_SESSION['login_failure'])): ?>
+				<?php if (isset($_SESSION['danger'])): ?>
 				<div class="alert alert-danger alert-dismissable fade in">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 					<?php
-					echo $_SESSION['login_failure'];
-					unset($_SESSION['login_failure']);
+					echo $_SESSION['danger'];
+					unset($_SESSION['danger']);
 					?>
 				</div>
 				<?php endif; ?>
-				<button type="submit" class="btn btn-success loginField">Login</button>
+				<button type="submit" class="btn btn-success">Login</button>
 			</div>
 		</div>
 	</form>
 </div>
-<?php include BASE_PATH.'/includes/footer.php'; ?>
+<?php include BASE_PATH . '/includes/footer.php'; ?>

@@ -8,28 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	$password = filter_input(INPUT_POST, 'password');
 	$remember = filter_input(INPUT_POST, 'remember');
 
-	// Get DB instance.
+	// Get DB instance
 	$db = getDbInstance();
 
-	$db->where('user_name', $username);
-	$row = $db->getOne('admin_accounts');
+	$db->where('username', $username);
+	$row = $db->getOne('users_accounts');
 
 	if ($db->count >= 1)
     {
 		$db_password = $row['password'];
-		$user_id = $row['id'];
+		$id_user = $row['id'];
 
 		if (password_verify($password, $db_password))
         {
 			$_SESSION['user_logged_in'] = TRUE;
-			$_SESSION['admin_type'] = $row['admin_type'];
-            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['id_group'] = $row['id_group'];
+            $_SESSION['id_user'] = $row['id'];
 
 			if ($remember)
             {
 				$series_id = randomString(16);
 				$remember_token = getSecureRandomToken(20);
-				$encryted_remember_token = password_hash($remember_token,PASSWORD_DEFAULT);
+				$encryted_remember_token = password_hash($remember_token, PASSWORD_DEFAULT);
 
 				$expiry_time = date('Y-m-d H:i:s', strtotime(' + 30 days'));
 				$expires = strtotime($expiry_time);
@@ -38,33 +38,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 				setcookie('remember_token', $remember_token, $expires, '/');
 
 				$db = getDbInstance();
-				$db->where ('id',$user_id);
+				$db->where ('id', $id_user);
 
 				$update_remember = array(
 					'series_id'=> $series_id,
 					'remember_token' => $encryted_remember_token,
 					'expires' =>$expiry_time
 				);
-				$db->update('admin_accounts', $update_remember);
+				$db->update('users_accounts', $update_remember);
 			}
 			// Authentication successfull redirect user
 			header('Location: index.php');
 		}
         else
         {
-			$_SESSION['login_failure'] = 'Invalid user name or password';
+			$_SESSION['danger'] = 'Invalid username or password';
 			header('Location: login.php');
 		}
 		exit;
 	}
     else
     {
-		$_SESSION['login_failure'] = 'Invalid user name or password';
+		$_SESSION['danger'] = 'Invalid username or password';
 		header('Location: login.php');
 		exit;
 	}
 }
 else
 {
-	die('Method Not allowed');
+	die('Method not allowed');
 }

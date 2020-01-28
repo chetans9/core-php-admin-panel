@@ -23,37 +23,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin_accounts`
---
-
-CREATE TABLE `admin_accounts` (
-  `id` int(25) NOT NULL,
-  `user_name` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `series_id` varchar(60) DEFAULT NULL,
-  `remember_token` varchar(255) DEFAULT NULL,
-  `expires` datetime DEFAULT NULL,
-  `admin_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `admin_accounts`
---
-
-INSERT INTO `admin_accounts` (`id`, `user_name`, `password`, `series_id`, `remember_token`, `expires`, `admin_type`) VALUES
-(3, 'root', '$2y$10$syHHgu.lgAUcLH/p1bJNRuQcLqwBVDNsL5mYnS3uVL4gs7apT1pni', NULL, NULL, NULL, 'admin'),
-(4, 'superadmin', '$2y$10$xpZc5KC.aU2XHkcqhuZGFuAnqmtL4Unt8MysOyylceq.19XIyoZpG', 'DJf6u76sLwu3CVpw', '$2y$10$ltxNketjQ7xG.XjwoDIqAOB5TxlUr6QQdzAFqkf6y8UMIKWDHX0Ji', '2018-12-21 15:17:46', 'super'),
-(5, 'admin', '$2y$10$12mUh2Gm8whTplS1zqfdRenBp24osPFe7Llli3OKxn2ijYkHuxxve', NULL, NULL, NULL, 'admin'),
-(6, 'chetanw', '$2y$10$iJSznl9t/iJmJWW1GcJyS.QJJ/pt8bR.jaixq5eZRzhbmGTW2QMLK', NULL, NULL, NULL, 'admin');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `f_name` varchar(25) NOT NULL,
   `l_name` varchar(25) NOT NULL,
   `gender` varchar(6) DEFAULT NULL,
@@ -63,11 +37,12 @@ CREATE TABLE `customers` (
   `phone` varchar(15) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `created_by` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `created_by` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_by` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `updated_by` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `customers`
@@ -98,37 +73,63 @@ INSERT INTO `customers` (`id`, `f_name`, `l_name`, `gender`, `address`, `city`, 
 (47, 'Chetan ', 'Doe', 'male', 'afa', NULL, 'Maharashtra', '9934678658', 'chetanshenai9@gmail.com', NULL, 0, '2018-11-17 18:26:16', 0, NULL),
 (48, 'Chetan ', 'Singh', 'male', NULL, NULL, ' ', NULL, NULL, NULL, 0, '2018-11-18 06:51:27', 0, NULL);
 
---
--- Indexes for dumped tables
---
+-- --------------------------------------------------------
 
 --
--- Indexes for table `admin_accounts`
---
-ALTER TABLE `admin_accounts`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
-
---
--- Indexes for table `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
+-- Table structure for table `users_accounts`
 --
 
+CREATE TABLE `users_accounts` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `username` varchar(63) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `id_group` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `series_id` varchar(60) DEFAULT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
+  `admin_type` varchar(10) NOT NULL COMMENT 'Deprecated',
+  `regtime` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
--- AUTO_INCREMENT for table `admin_accounts`
+-- Dumping data for table `users_accounts`
 --
-ALTER TABLE `admin_accounts`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+INSERT INTO `users_accounts` (`id`, `username`, `password`, `id_group`, `series_id`, `remember_token`, `expires`, `admin_type`, `regtime`) VALUES
+(1, 'superadmin', '$2y$10$xpZc5KC.aU2XHkcqhuZGFuAnqmtL4Unt8MysOyylceq.19XIyoZpG', 1, 'DJf6u76sLwu3CVpw', '$2y$10$ltxNketjQ7xG.XjwoDIqAOB5TxlUr6QQdzAFqkf6y8UMIKWDHX0Ji', NULL, NULL, NOW()),
+(3, 'root', '$2y$10$syHHgu.lgAUcLH/p1bJNRuQcLqwBVDNsL5mYnS3uVL4gs7apT1pni', 2, NULL, NULL, NULL, NULL, NOW()),
+(5, 'admin', '$2y$10$12mUh2Gm8whTplS1zqfdRenBp24osPFe7Llli3OKxn2ijYkHuxxve', 2, NULL, NULL, NULL, NULL, NOW()),
+(6, 'chetanw', '$2y$10$iJSznl9t/iJmJWW1GcJyS.QJJ/pt8bR.jaixq5eZRzhbmGTW2QMLK', 2, NULL, NULL, NULL, NULL, NOW());
+
+-- --------------------------------------------------------
+
 --
--- AUTO_INCREMENT for table `customers`
+-- Table structure for table `users_groups`
 --
-ALTER TABLE `customers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE `users_groups` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL,
+  `priority` int(11) NOT NULL,
+  `actions` varchar(255) NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 1,
+  `created_by` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `users_groups`
+--
+
+INSERT INTO `users_groups` (`id`, `name`, `type`, `priority`, `actions`, `published`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'Superuser', 3, 1, '{\"create\":1, \"update_own\":0, \"update_all\":1, \"trash_own\":0, \"trash_all\":1, \"delete\":1, \"ban_users\":1, \"hide_avatar\":1}', 1, 1, NOW(), 0, NULL),
+(2, 'Admin', 3, 1, '{\"create\":1, \"update_own\":0, \"update_all\":1, \"trash_own\":0, \"trash_all\":1, \"delete\":0, \"ban_users\":1, \"hide_avatar\":1}', 1, 1, NOW(), 0, NULL),
+(3, 'Moderator', 2, 1, '{\"create\":1, \"update_own\":1, \"update_all\":0, \"trash_own\":1, \"trash_all\":0, \"delete\":0, \"ban_users\":1, \"hide_avatar\":0}', 1, 1, NOW(), 0, NULL),
+(4, 'Member', 1, 1, '{\"create\":1, \"update_own\":1, \"update_all\":0, \"trash_own\":1, \"trash_all\":0, \"delete\":0, \"ban_users\":0, \"hide_avatar\":0}', 1, 1, NOW(), 0, NULL),
+(5, 'Guest', 0, 1, '{\"create\":0, \"update_own\":0, \"update_all\":0, \"trash_own\":0, \"trash_all\":0, \"delete\":0, \"ban_users\":0, \"hide_avatar\":0}', 1, 1, NOW(), 0, NULL);
