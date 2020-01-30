@@ -102,7 +102,7 @@ class Accounts extends CRUD
 		}
         $db->orderBy($order_by, $order_dir);
 
-		$cols = ['ua.id id, ua.username username, ua.created_by created_by, ug.name usergroup'];
+		$cols = ['ua.id id, ua.username username, ug.name usergroup'];
 
         // Get result of the query
 		$db->join('users_groups ug', 'ug.id = ua.id_group', 'LEFT');
