@@ -8,6 +8,7 @@ A Simple Admin Pannel written in core PHP. It contains an implementation of gene
   - Secure Authentication
   - Pagination
   - Filters
+  - Tables
 
 ### Live Demo :
 http://freecs9.epizy.com/core-php-admin
