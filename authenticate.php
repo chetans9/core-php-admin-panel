@@ -6,6 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$passwd = filter_input(INPUT_POST, 'passwd');
 	$remember = filter_input(INPUT_POST, 'remember');
 
+	//echo password_verify('admin', '$2y$10$RnDwpen5c8.gtZLaxHEHDOKWY77t/20A4RRkWBsjlPuu7Wmy0HyBu'); exit;
+
 	//Get DB instance.
 	$db = getDbInstance();
 
@@ -15,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	if ($db->count >= 1) {
 
-		$db_password = $row[0]['passwd'];
+		$db_password = $row[0]['password'];
 		$user_id = $row[0]['id'];
 
 		if (password_verify($passwd, $db_password)) {
@@ -51,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			header('Location:index.php');
 
 		} else {
+		
 			$_SESSION['login_failure'] = "Invalid user name or password";
 			header('Location:login.php');
 		}
