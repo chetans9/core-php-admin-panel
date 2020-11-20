@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	$admin_user_id = filter_input(INPUT_GET, 'admin_user_id', FILTER_VALIDATE_INT);
 	//Encrypting the password
-	$data_to_update['passwd'] = password_hash($data_to_update['passwd'], PASSWORD_DEFAULT);
+	$data_to_update['password'] = password_hash($data_to_update['password'], PASSWORD_DEFAULT);
 
 	$db = getDbInstance();
 	$db->where('id', $admin_user_id);

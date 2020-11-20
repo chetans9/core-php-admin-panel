@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     }
 
     //Encrypt password
-    $data_to_store['passwd'] = password_hash($data_to_store['passwd'],PASSWORD_DEFAULT);
+    $data_to_store['password'] = password_hash($data_to_store['password'],PASSWORD_DEFAULT);
     //reset db instance
     $db = getDbInstance();
     $last_id = $db->insert ('admin_accounts', $data_to_store);
