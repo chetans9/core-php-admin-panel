@@ -72,7 +72,7 @@ include BASE_PATH . '/includes/header.php';
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Search</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo htmlspecialchars($search_string, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string); ?>">
             <label for="input_order">Order By</label>
             <select name="filter_col" class="form-control">
                 <?php
@@ -115,9 +115,9 @@ if ($order_by == 'Desc') {
             <?php foreach ($rows as $row): ?>
             <tr>
                 <td><?php echo $row['id']; ?></td>
-                <td><?php echo htmlspecialchars($row['f_name'] . ' ' . $row['l_name']); ?></td>
-                <td><?php echo htmlspecialchars($row['gender']); ?></td>
-                <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                <td><?php echo xss_clean($row['f_name'] . ' ' . $row['l_name']); ?></td>
+                <td><?php echo xss_clean($row['gender']); ?></td>
+                <td><?php echo xss_clean($row['phone']); ?></td>
                 <td>
                     <a href="edit_customer.php?customer_id=<?php echo $row['id']; ?>&operation=edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
                     <a href="#" class="btn btn-danger delete_btn" data-toggle="modal" data-target="#confirm-delete-<?php echo $row['id']; ?>"><i class="glyphicon glyphicon-trash"></i></a>

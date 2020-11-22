@@ -113,3 +113,11 @@ function paginationLinks($current_page, $total_pages, $base_url) {
 
 	return $html;
 }
+
+/**
+ * to prevent xss
+ */
+function xss_clean($string){
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+
+}
