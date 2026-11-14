@@ -52,6 +52,13 @@ if ($search_string)
 }
 
 //If order by option selected
+// Whitelist the order-by column: ORDER BY identifiers cannot be bound, so
+// restrict $filter_col to the known-safe column names to prevent SQL injection.
+$allowed_cols = array_keys($users->setOrderingValues());
+if (!in_array($filter_col, $allowed_cols, true))
+{
+    $filter_col = 'id';
+}
 if ($order_by)
 {
     $db->orderBy($filter_col, $order_by);
